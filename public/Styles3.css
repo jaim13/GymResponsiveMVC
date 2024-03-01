@@ -1,0 +1,71 @@
+
+h1 {
+    background-color: white; 
+    padding: 2vh 5vw;
+    border-radius: 5px; 
+}
+
+.image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-image: url('/images/user2.jpg');
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; 
+}
+
+.card {
+    width: 90%; 
+    max-width: 400px; 
+    padding: 5vw;
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 5vh; 
+    margin-bottom: 5vh; 
+}
+
+.card-title {
+    font-size: 4vw; 
+    font-weight: bold; 
+}
+
+.card-text {
+    font-size: 3vw; 
+}
+
+body {
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 4vw; 
+    }
+
+    .card-text {
+        font-size: 3vw; 
+    }
+}
+
+
+@media (min-width: 769px) {
+    h1 {
+        font-size: 2.5em; 
+    }
+
+    .card {
+        width: 400px; 
+    }
+
+    .card-title {
+        font-size: 2em; 
+    }
+
+    .card-text {
+        font-size: 1.6em;
+    }
+}

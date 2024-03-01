@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa Rica Fitness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Styles4.css"> 
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Costa Rica Fitness</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/Clases">Clases</a>
+                    <a class="nav-link" href="/InBody">InBody</a>
+                    <a class="nav-link" href="/Personal" >Personal Trainer</a>
+                    <a class="nav-link" href="/WWU">Work with Us</a>
+                    <a class="nav-link" href="/User">My account</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="image-overlay">
+                        <img src="./images/boxing.jpg" class="card-img-top" alt="Class 1">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Boxing</h5>
+                        <p class="card-text">A high-intensity workout combining punches, jabs, and footwork to increase strength, endurance, and agility.</p>
+                        <form id="fromClasesBoxing" method="POST" action="/clases">
+                            <input type="hidden" name="Clases" value="Boxing">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="image-overlay">
+                        <img src="./images/yoga.jpg" class="card-img-top" alt="Class 2">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Yoga</h5>
+                        <p class="card-text">A peaceful and calming practice that combines gentle stretching, controlled breathing, and meditation for improved flexibility, balance, and relaxation.</p>
+                        <form id="fromClasesYoga" method="POST" action="/clases">
+                            <input type="hidden" name="Clases" value="Yoga">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="image-overlay">
+                        <img src="./images/cardiodance.jpg" class="card-img-top" alt="Class 3">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Cardio Dance</h5>
+                        <p class="card-text">A fun and energetic class featuring dynamic dance routines set to upbeat music, designed to improve cardiovascular health and coordination.</p>
+                        <form id="fromClasesCardioDance" method="POST" action="/clases">
+                            <input type="hidden" name="Clases" value="Cardio Dance">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="suscriptionsGrid" class="container mt-5">
+    </div>    
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <form id="watchSuscriptionsForm" method="POST" action="/clases">
+                    <input type="hidden" name="action" value="watch">
+                    <button type="submit" id="watchButton" class="btn btn-primary">Watch Your Suscriptions</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

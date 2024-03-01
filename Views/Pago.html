@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa Rica Fitness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="Styles2.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.5.0/jquery.mobile-1.5.0.min.css">
+    <script src="https://code.jquery.com/mobile/1.5.0/jquery.mobile-1.5.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Costa Rica Fitness</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/Clases">Classes</a>
+                    <a class="nav-link" href="/InBody">InBody</a>
+                    <a class="nav-link" href="/Personal" >Personal Trainer</a>
+                    <a class="nav-link" href="/WWU">Work with Us</a>
+                    <a class="nav-link" href="/User">My account</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-5">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Bank Transfer
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form action="/submit-payment" method="post">
+                            <div class="mb-3">
+                                <label for="banco" class="form-label">Bank</label>
+                                <select id="banco" name="banco" class="form-control">
+                                    <option value="" disabled selected>Choose a bank</option>
+                                    <option value="BCR">BCR</option>
+                                    <option value="BAC">BAC</option>
+                                    <option value="BCN">BCN</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="numeroCuenta" class="form-label">Account</label>
+                                <input type="text" class="form-control" id="numeroCuenta" name="numeroCuenta">
+                            </div>
+                            <div class="mb-3">
+                                <label for="monto" class="form-label">Amount</label>
+                                <input type="text" class="form-control" id="monto" name="monto">
+                            </div>
+                            <input type="hidden" name="metodoPago" value="transferencia">
+                            <button type="submit" class="btn btn-primary">Pay it</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        PayPal
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form action="/submit-payment" method="post">
+                            <div class="mb-3">
+                                <label for="emailPaypal" class="form-label">Paypal Email</label>
+                                <input type="email" class="form-control" id="emailPaypal" name="emailPaypal">
+                            </div>
+                            <div class="mb-3">
+                                <label for="montoPaypal" class="form-label">Amount</label>
+                                <input type="text" class="form-control" id="montoPaypal" name="monto">
+                            </div>
+                            <input type="hidden" name="metodoPago" value="paypal">
+                            <button type="submit" class="btn btn-primary">Pay it</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Credit/Debit Card
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form action="/submit-payment" method="post">
+                            <div class="mb-3">
+                                <label for="nombreTarjeta" class="form-label">Card Name</label>
+                                <select id="nombreTarjeta" name="nombreTarjeta" class="form-control">
+                                    <option value="" disabled selected>Choose a Card</option>
+                                    <option value="visa">Visa</option>
+                                    <option value="mastercard">Mastercard</option>
+                                    <option value="amex">American Express</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="numeroTarjeta" class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="numeroTarjeta" name="numeroTarjeta">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaExpiracion" class="form-label">Expiration Date</label>
+                                <input type="text" class="form-control" id="fechaExpiracion" name="fechaExpiracion">
+                            </div>
+                            <div class="mb-3">
+                                <label for="codigoSeguridad" class="form-label">Security code (CVV)</label>
+                                <input type="text" class="form-control" id="codigoSeguridad" name="codigoSeguridad">
+                            </div>
+                            <input type="hidden" name="metodoPago" value="tarjeta">
+                            <button type="submit" class="btn btn-primary">Pay it</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container position-relative">
+        <img src="../images/pagos1.jpg" class="img-fluid p-0 m-0 d-block" alt="">
+        <div class="position-absolute top-50 start-50 translate-middle text-center">
+            <p style="font-size: 30px;" class="text-white">Let's Get Fit</p>
+        </div>
+    </div>
+    
+    <br>
+    <footer class="bg-dark text-white text-center py-5">
+        <br>
+        <p style="margin-bottom: 0; font-size: 15px;">
+            Payments will be made for the purpose of payments to the company and for the protection of your data. 
+            We are committed to safeguard your personal information and use it only for the purpose of processing your transactions. 
+            We will not share your data with third parties without your consent.
+        </p>
+        <br>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

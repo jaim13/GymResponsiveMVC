@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa Rica Fitness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="Styles2.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Costa Rica Fitness</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/Clases">Classes</a>
+                    <a class="nav-link" href="/InBody">InBody</a>
+                    <a class="nav-link" href="/Personal" >Personal Trainer</a>
+                    <a class="nav-link" href="/WWU">Work with Us</a>
+                    <a class="nav-link" href="/User">My account</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <section id="cards" class="row">
+            <div class="card text-center mb-3 col-md-4">
+                <img src="./images/trainer1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Roberth Watson</h5>
+                    <p class="card-text">Martial Arts Trainer<br>MMA Amateur Athlete</p>
+                    <form id="formContratarRoberth" method="POST" action="/contratar">
+                        <input type="hidden" name="trainer" value="Roberth Watson">
+                        <button type="submit" class="btn btn-primary" name="contratar">Hire</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card text-center mb-3 col-md-4">
+                <img src="./images/trainer2.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">David Coleman</h5>
+                    <p class="card-text">Bodybuilding Trainer<br>Mr Olympia</p>
+                    <form id="formContratarDavid" method="POST" action="/contratar">
+                        <input type="hidden" name="trainer" value="David Coleman">
+                        <button type="submit" class="btn btn-primary" name="contratar">Hire</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card text-center mb-3 col-md-4">
+                <img src="./images/trainer3.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Jair Lopez</h5>
+                    <p class="card-text">Bodybuilding Trainer<br>Nutricion</p>
+                    <form id="formContratarJair" method="POST" action="/contratar">
+                        <input type="hidden" name="trainer" value="Jair Lopez">
+                        <button type="submit" class="btn btn-primary" name="contratar">Hire</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
