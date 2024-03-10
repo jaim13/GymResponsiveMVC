@@ -61,10 +61,8 @@ async function insertclases(userID, idClase) {
         if (idUsuario !== null) {
             await conectarBaseDeDatos();
             const request = new sql.Request();
-
             request.input('idUsuario', sql.Int, idUsuario);
             request.input('idClase', sql.Int, idClase);
-
             await request.execute('InsertarUserClass');
             
             console.log('Registro insertado correctamente en la tabla User_Class.');

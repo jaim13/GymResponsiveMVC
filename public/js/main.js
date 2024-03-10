@@ -1,49 +1,9 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const success = urlParams.get('success');
-    console.log('Evento cargado');
-    
-    if (success === 'true') {
-        Swal.fire({
-            icon: 'success',
-            title: 'CV Enviado Correctamente',
-            text: '¡Tu CV ha sido enviado correctamente!',
-        });
-    }
 
-    var botonTopTier = document.getElementById("btntoptier");
-    botonTopTier.addEventListener("click", function() {
-        Swal.fire({
-            title: 'Top Tier',
-            text: 'You and up to five guests will have access to all of our equipment and a staff member will create a personalized routine for you. Price:35.000',
-            icon: 'info', 
-            confirmButtonText: 'Done' 
-        });
-    });
-
-    var botonMidTier = document.getElementById("btnmidtier");
-    botonMidTier.addEventListener("click", function() {
-        Swal.fire({
-            title: 'Mid Tier',
-            text: 'You will have access to the all equipment in our establishment, and you can also have 2 guests per month.Price:25.000',
-            icon: 'info', 
-            confirmButtonText: 'Done' 
-        });
-    });
-
-    var ageSlider = document.getElementById("age");
-    var ageValueDisplay = document.getElementById("ageValue");
-    ageValueDisplay.textContent = ageSlider.value;
-    ageSlider.addEventListener("input", function() {
-        ageValueDisplay.textContent = this.value;
-    });
-});
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("showUserInfoButton").addEventListener("click", async function() {
         try {
             const response = await fetch('/getUserInfo');
             const responseData = await response.json();
-
             if (response.ok) {
                 document.getElementById("user-name").textContent = responseData.nombre;
                 document.getElementById("membership-level").textContent = responseData.idMembresia;
@@ -109,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function renderSuscriptions(data) {
         const suscriptionsGrid = document.getElementById('suscriptionsGrid');
-        
         if (Array.isArray(data) && data.length > 0) {
             suscriptionsGrid.innerHTML = ''; 
             

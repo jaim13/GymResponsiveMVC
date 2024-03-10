@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path');
 const personalController = require('./controllers/personalcontroller'); 
-const mainController = require('./controllers/mainController');
+const mainController = require('./controllers/maincontroller');
 const logincontroller = require('./controllers/logincontroller');
 const paymentController = require('./controllers/paymentcontroller');
 const usercontroller = require('./controllers/usercontroller');
 const WWUcontroller = require('./controllers/WokwithUscontroller');
 const InBodycontroller = require('./controllers/InBodycontroller');
 const Companycontroller = require('./controllers/Companycontroller');
+const  tokencontroller= require('./controllers/tokencontroller');
 const { handleClases, watchSuscriptions } = require('./controllers/clasescontroller');
 
 const cookieParser = require('cookie-parser');
@@ -18,8 +19,16 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((err, req, res, next) => {
+    console.error('Error interno en el servidor:', err);
+    res.status(500).json({ error: 'Ocurrió un error interno en el servidor' });
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Main.html'));
+});
+app.get('/Token', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'Token.html'));
 });
 app.get('/User', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'User.html'));
@@ -51,7 +60,21 @@ app.get('/Personal', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Personal.html'));
 });
 
-app.post('/submit-form', mainController.handleFormSubmit);
+app.post('/submit-form', async (req, res) => {
+    try {
+        await mainController.handleFormSubmit(req, res);
+    } catch (error) {
+        console.error('Error al manejar la solicitud:', error);
+        // Enviar una respuesta de error solo si hay un error real en la solicitud
+        if (error.response && error.response.status === 400) {
+            return res.status(400).json({ error: error.response.data.error });
+        } else {
+            return res.status(500).json({ error: 'Ocurrió un error interno en el servidor' });
+        }
+    }
+});
+
+app.post('/token',tokencontroller.handleToken)
 
 app.post('/submit_inbody', InBodycontroller.handleInBodyData);
 
@@ -72,7 +95,6 @@ app.post('/clases', (req, res) => {
 app.post('/submit_inbody', InBodycontroller.handleInBodyData);
 
 app.post('/WorkwithUs', WWUcontroller.submitCV);
-Companycontroller
 app.post('/Companycontroller', Companycontroller.handleCompanyForm);
 
 app.post('/submit-payment', (req, res) => {
