@@ -5,10 +5,13 @@ const crypto = require('crypto');
 
 
 const generateShortToken = (email) => {
+    const salt = 'gm';
     const hash = crypto.createHash('sha256');
-    hash.update(email);
-    return hash.digest('hex').substring(0, 10); // Tomamos los primeros 10 caracteres del hash como token
+    hash.update(email + salt); // Agrega el salt al correo electrónico antes de generar el hash
+    const token = hash.digest('base64').substring(0, 10); // Tomar los primeros 10 caracteres del hash codificado en Base64
+    return token;
 };
+
 
 const sendTokenEmail = async (email, res) => {
     const token = generateShortToken(email);
@@ -26,7 +29,7 @@ const sendTokenEmail = async (email, res) => {
         from: 'jaimmartinez13@gmail.com',
         to: email,
         subject: 'Token único para registro',
-        text: `Aquí está su token único para el registro: ${token}`
+        html: `<p>Aquí está su token único para el registro: <strong>${token}</strong></p>`
     };
 
     // Envío del correo electrónico
@@ -35,6 +38,7 @@ const sendTokenEmail = async (email, res) => {
     // Establecer la cookie del token
     res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // La cookie expira en 1 hora
 };
+
 
 const handleFormSubmit = async (req, res) => {
     try {
@@ -48,10 +52,24 @@ const handleFormSubmit = async (req, res) => {
             age: req.body.age,
             phone: req.body.phone,
             company: req.body.company,
+            question: req.body.securityQuestion,
+            answer: req.body.securityAnswer,
             fechaRegistro: fechaRegistro 
         };
 
         formData.company = req.body.company === "" ? 1 : req.body.company;
+
+        var pregunta;
+        if (formData.question === '1')
+            pregunta = "What is the name of your first pet?";
+        else if (formData.question === '2') {
+            pregunta = "What city were you born in?";
+        } else if (formData.question === '3') {
+            pregunta = "What is your favorite book?";
+        } else {
+            pregunta = "Unknown question";
+        }
+
 
         let membershipId;
         if (req.body.membership === 'topTier') {
@@ -63,7 +81,7 @@ const handleFormSubmit = async (req, res) => {
         }
 
         formData.membershipId = membershipId;
-
+        formData.question = pregunta;
         const message = 'Enviando datos al modelo desde el controlador:';
         console.log(message, formData);
 

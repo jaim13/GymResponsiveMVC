@@ -1,5 +1,5 @@
 const sql = require('mssql');
-
+const crypto = require('crypto');
 
 const config = {
     user: 'JaimDavid',
@@ -31,14 +31,30 @@ async function cerrarConexion() {
         throw error;
     }
 }
+function encryptPasswordWithIV(password) {
+    const key = crypto.createHash('sha256').update('gm').digest(); // Generar clave de 256 bits (32 bytes)
+    const iv = crypto.randomBytes(16); // IV de 16 bytes
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let encryptedPassword = cipher.update(password, 'utf-8', 'hex');
+    encryptedPassword += cipher.final('hex');
+    const encryptedDataWithIV = iv.toString('hex') + encryptedPassword;
+    return encryptedDataWithIV;
+}
 
-async function insertarUsuario(nombre,password, correo, telefono, edad, fechaRegistro, idUsuario, idMembresia, idEmpresa) {
+
+async function insertarUsuario(nombre, password, correo, telefono, edad, fechaRegistro, idUsuario, idMembresia, idEmpresa, question, answer) {
+    let contraseñaEncriptada;
     try {
         await conectarBaseDeDatos();
+        const actividad = "Activo";
         const fechaISO = fechaRegistro.toISOString();
+        contraseñaEncriptada = encryptPasswordWithIV(password);
+        const clave = Buffer.from('...clave generada anteriormente...', 'hex');
+        console.log("Contraseña encriptada:", contraseñaEncriptada);
+        const contraseñaBinaria = Buffer.from(contraseñaEncriptada, 'hex');
 
-        await sql.query`INSERT INTO Usuarios (cedula, Nombre, Contraseña, Telefono, Edad, Correo, FechaRegistro, idMembresia, idEmpresa)
-            VALUES (${idUsuario}, ${nombre}, ${password}, ${telefono}, ${edad}, ${correo}, ${fechaISO}, ${idMembresia}, ${idEmpresa})`;
+        await sql.query`INSERT INTO Usuarios (cedula, Nombre, ContraseñaEncriptada, Telefono, Edad, Correo, FechaRegistro, idMembresia, idEmpresa, Pregunta, Respuesta, Actividad)
+            VALUES (${idUsuario}, ${nombre}, ${contraseñaBinaria}, ${telefono}, ${edad}, ${correo}, ${fechaISO}, ${idMembresia}, ${idEmpresa}, ${question}, ${answer}, ${actividad})`;
 
         await cerrarConexion();
 
@@ -49,11 +65,10 @@ async function insertarUsuario(nombre,password, correo, telefono, edad, fechaReg
     }
 }
 
-
 async function processFormData(formData) {
     try {
         console.log('Datos recibidos en el modelo:', formData);
-        await insertarUsuario(formData.fullName,formData.password, formData.email, formData.phone, formData.age, formData.fechaRegistro, formData.id, formData.membershipId, formData.company);
+        await insertarUsuario(formData.fullName,formData.password, formData.email, formData.phone, formData.age, formData.fechaRegistro, formData.id, formData.membershipId, formData.company,formData.question,formData.answer);
 
         console.log('Procesamiento de datos completado en el modelo.');
     } catch (error) {
