@@ -9,6 +9,8 @@ const WWUcontroller = require('./controllers/WokwithUscontroller');
 const InBodycontroller = require('./controllers/InBodycontroller');
 const Companycontroller = require('./controllers/Companycontroller');
 const  tokencontroller= require('./controllers/tokencontroller');
+const recovercontroller= require("./controllers/recovercontroller");
+const QAcontroller = require("./controllers/QAcontroller");
 const { handleClases, watchSuscriptions } = require('./controllers/clasescontroller');
 
 const cookieParser = require('cookie-parser');
@@ -26,6 +28,12 @@ app.use((err, req, res, next) => {
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Main.html'));
+});
+app.get('/Recover', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'RestorePassword.html'));
+});
+app.get('/QA', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'Q&A.html'));
 });
 app.get('/Token', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Token.html'));
@@ -75,6 +83,10 @@ app.post('/submit-form', async (req, res) => {
 });
 
 app.post('/token',tokencontroller.handleToken)
+
+app.post('/QA',QAcontroller.handleQA)
+
+app.post('/Recover',recovercontroller.handleRecover)
 
 app.post('/submit_inbody', InBodycontroller.handleInBodyData);
 

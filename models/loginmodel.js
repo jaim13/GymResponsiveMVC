@@ -84,6 +84,87 @@ async function verificarCredenciales(cedula, password) {
         await cerrarConexion();
     }
 }
+async function actualizarActividadUsuario(cedula, actividad) {
+    try {
+        await conectarBaseDeDatos();
+        const pool = await sql.connect(config);
+        await pool.request()
+            .input('cedula', sql.VarChar, cedula)
+            .input('actividad', sql.VarChar, actividad)
+            .query(`UPDATE Usuarios SET Actividad = @actividad WHERE cedula = @cedula`);
+        console.log('Actividad del usuario actualizada correctamente.');
+    } catch (error) {
+        console.error('Error al actualizar la actividad del usuario:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
+async function obtenerIdUsuarioPorCedula(userID) {
+    try {
+        await conectarBaseDeDatos();
+        const request = new sql.Request();
+        request.input('Cedula', sql.VarChar, userID);
+        const result = await request.execute('BuscarUsuarioPorCedula');
+        
+        if (result.recordset.length > 0) {
+            const idUsuario = result.recordset[0].idusuarios;
+            console.log('ID de usuario encontrado:', idUsuario);
+            return idUsuario;
+        } else {
+            console.log('No se encontró ningún usuario con la cédula proporcionada:', userID);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al buscar el usuario:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
+async function insertarRegistroLog(cedula, actividad) {
+    try {
+        const idUsuario = await obtenerIdUsuarioPorCedula(cedula);
+        console.log('idUsuario: ',idUsuario)
+        await conectarBaseDeDatos();
+        const pool = await sql.connect(config);
+        await pool.request()
+            .input('idUsuario', sql.Int, idUsuario)  // Corregir nombre del parámetro aquí
+            .input('actividad', sql.VarChar(100), actividad)
+            .execute('InsertLogs');
+        console.log('Registro de log insertado correctamente.');
+    } catch (error) {
+        console.error('Error al insertar el registro de log:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
+async function buscarActividadPorCedula(cedula) {
+    try {
+        await conectarBaseDeDatos();
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('cedula', sql.VarChar(50), cedula)
+            .query('EXEC BuscarActividadPorCedula @cedula');
+        
+        if (result.recordset.length > 0) {
+            return result.recordset[0].Actividad;
+        } else {
+            return null; // No se encontró ninguna actividad para la cédula dada
+        }
+    } catch (error) {
+        console.error('Error al buscar actividad por cédula:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
+
+
 module.exports = {
-    verificarCredenciales
+    verificarCredenciales,
+    actualizarActividadUsuario,
+    insertarRegistroLog,
+    buscarActividadPorCedula
 };
