@@ -160,11 +160,32 @@ async function buscarActividadPorCedula(cedula) {
         await cerrarConexion();
     }
 }
+async function buscarCorreoPorCedula(cedula) {
+    try {
+        await conectarBaseDeDatos();
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('cedula', sql.VarChar(50), cedula)
+            .query('SELECT Correo FROM Usuarios WHERE cedula = @cedula');
+        
+        if (result.recordset.length > 0) {
+            return result.recordset[0].Correo;
+        } else {
+            return null; // No se encontró ningún usuario con la cédula dada
+        }
+    } catch (error) {
+        console.error('Error al buscar el correo por cédula:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
 
 
 module.exports = {
     verificarCredenciales,
     actualizarActividadUsuario,
     insertarRegistroLog,
-    buscarActividadPorCedula
+    buscarActividadPorCedula,
+    buscarCorreoPorCedula
 };

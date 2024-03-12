@@ -11,6 +11,7 @@ const Companycontroller = require('./controllers/Companycontroller');
 const  tokencontroller= require('./controllers/tokencontroller');
 const recovercontroller= require("./controllers/recovercontroller");
 const QAcontroller = require("./controllers/QAcontroller");
+const verification = require("./controllers/2stepcontroller");
 const { handleClases, watchSuscriptions } = require('./controllers/clasescontroller');
 
 const cookieParser = require('cookie-parser');
@@ -31,6 +32,9 @@ app.get('/', (req, res) => {
 });
 app.get('/Recover', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'RestorePassword.html'));
+});
+app.get('/Verification', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '2stepverification.html'));
 });
 app.get('/QA', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Q&A.html'));
@@ -83,6 +87,8 @@ app.post('/submit-form', async (req, res) => {
 });
 
 app.post('/token',tokencontroller.handleToken)
+
+app.post('/Verification',verification.handleSecondStep)
 
 app.post('/QA',QAcontroller.handleQA)
 
