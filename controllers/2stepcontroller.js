@@ -3,7 +3,7 @@
 const handleSecondStep = (req, res) => {
     try {
         const tokenRecibido = req.cookies.token;
-        const tokenIngresado = req.body.token; // Suponiendo que el token ingresado se envía en el cuerpo de la solicitud
+        const tokenIngresado = req.body.token; 
         if (tokenRecibido === tokenIngresado) {
             console.log('Token recibido:', tokenRecibido);
             res.redirect('/Services')

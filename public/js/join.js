@@ -9,21 +9,16 @@ document.addEventListener("DOMContentLoaded", function() {
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const age = parseInt(document.getElementById('age').value);
-
-            // Validar la contraseña
             const passwordError = validatePassword(password);
             if (passwordError) {
                 showError(passwordError);
                 return;
             }
 
-            // Confirmar la contraseña
             if (password !== confirmPassword) {
-                showError('Las contraseñas no coinciden.');
+                showError('Confirm password doesn´t match.');
                 return;
             }
-
-            // Si todas las validaciones pasan, enviar el formulario
             form.submit();
         });
 
@@ -63,10 +58,8 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("El elemento con ID 'joinForm' no fue encontrado en el HTML.");
     }
 
-    // Obtener el icono de información correctamente
     const passwordIcon = document.querySelector('#passwordIcon i');
 
-    // Agregar un evento de clic al icono para mostrar las validaciones de contraseña en inglés
     passwordIcon.addEventListener('click', function() {
         const passwordHelp = document.getElementById('passwordHelp');
         passwordHelp.innerHTML = `

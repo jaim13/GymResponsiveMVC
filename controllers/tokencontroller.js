@@ -1,8 +1,8 @@
 // tokencontroller.js
 
 const handleToken = (req, res) => {
-    const tokenIngresado = req.body.token; // Obtener el token ingresado en el cuerpo de la solicitud
-    const tokenCookie = req.cookies.token; // Obtener el token almacenado en la cookie
+    const tokenIngresado = req.body.token; 
+    const tokenCookie = req.cookies.token; 
 
     // Verificar si el token ingresado coincide con el de la cookie
     if (tokenIngresado === tokenCookie) {
@@ -11,7 +11,8 @@ const handleToken = (req, res) => {
         res.redirect('/pago')
     } else {
         console.log('Token inválido:', tokenIngresado);
-        res.status(400).send('Token inválido');
+        res.send('<script>alert("Wrong Token!"); window.location.href = "/";</script>');
+        return;
     }
 };
 

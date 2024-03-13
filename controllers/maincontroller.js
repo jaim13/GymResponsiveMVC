@@ -7,8 +7,8 @@ const crypto = require('crypto');
 const generateShortToken = (email) => {
     const salt = 'gm';
     const hash = crypto.createHash('sha256');
-    hash.update(email + salt); // Agrega el salt al correo electrónico antes de generar el hash
-    const token = hash.digest('base64').substring(0, 10); // Tomar los primeros 10 caracteres del hash codificado en Base64
+    hash.update(email + salt);
+    const token = hash.digest('base64').substring(0, 10); 
     return token;
 };
 
@@ -16,7 +16,6 @@ const generateShortToken = (email) => {
 const sendTokenEmail = async (email, res) => {
     const token = generateShortToken(email);
 
-    // Configuración del transportista de correo electrónico con Gmail
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -28,15 +27,13 @@ const sendTokenEmail = async (email, res) => {
     const mailOptions = {
         from: 'jaimmartinez13@gmail.com',
         to: email,
-        subject: 'Token único para registro',
-        html: `<p>Aquí está su token único para el registro: <strong>${token}</strong></p>`
+        subject: 'Unique Token to register',
+        html: `<p>This is your token,thanks for join us: <strong>${token}</strong></p>`
     };
 
-    // Envío del correo electrónico
     await transporter.sendMail(mailOptions);
 
-    // Establecer la cookie del token
-    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // La cookie expira en 1 hora
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); 
 };
 
 
@@ -87,18 +84,13 @@ const handleFormSubmit = async (req, res) => {
 
         await mainModel.processFormData(formData);
 
-        // Envío del token por correo electrónico y como cookie
         await sendTokenEmail(formData.email, res);
-        
-        // Establecer la cookie de userID
-        res.cookie('userID', formData.id);
 
-        // Enviar una respuesta de éxito
+        res.cookie('userID', formData.id);
         res.redirect('/Token');
 
     } catch (error) {
         console.error('Error al procesar los datos en el controlador:', error);
-        // Enviar una respuesta de error genérica en caso de cualquier otro error
         res.status(500).json({ success: false, error: 'Ocurrió un error al procesar el formulario' });
     }
 };

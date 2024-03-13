@@ -25,15 +25,12 @@ async function handleQA(req, res) {
                 await QAModel.UpdatePassword(id, newpassword);
                 res.redirect('/login')
             } else {
-                console.log('La respuesta del usuario no coincide con la respuesta almacenada.');
-                res.redirect('/QA')
+                res.send('<Wrong answer!"); window.location.href = "/QA";</script>');
+                return;
             }
         } else {
             console.log('No se encontraron datos de recuperación en la cookie.');
-            // Aquí puedes manejar el caso en el que no se encuentren datos de recuperación en la cookie
         }
-
-        // Aquí puedes continuar con el resto de la lógica del controlador QA
     } catch (error) {
         console.error('Error al manejar la solicitud QA:', error);
         res.status(500).json({ message: 'Ocurrió un error al procesar la solicitud QA.' });

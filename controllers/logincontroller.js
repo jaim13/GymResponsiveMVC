@@ -50,8 +50,8 @@ const handleLogin = async (req, res) => {
         console.log('Correo en Base de datos: ', CorreoBD);
 
         if (actividadBD === 'Inactivo') {
-            res.redirect('/Recover')
-            return res.status(403).send('La actividad de su cuenta está inactiva. Por favor, contacte al administrador.');
+            res.send('<script>alert("Your account have been blocked!"); window.location.href = "/Recover";</script>');
+            return;
         }
 
         if (resultadoVerificacion === 'Éxito') {
@@ -73,6 +73,8 @@ const handleLogin = async (req, res) => {
                 actividad = 'BlockedLog';
                 await loginModel.insertarRegistroLog(cedula, actividad);
                 await loginModel.actualizarActividadUsuario(cedula, inactivo);
+                res.send('<script>alert("Your account have been blocked!"); window.location.href = "/";</script>');
+                return;
             }
             res.redirect('/login');
         }

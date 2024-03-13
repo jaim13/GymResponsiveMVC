@@ -6,8 +6,8 @@ const crypto = require('crypto');
 const generateShortToken = (pregunta,respuesta) => {
     const salt = 'gm';
     const hash = crypto.createHash('sha256');
-    hash.update(pregunta+respuesta + salt); // Agrega el salt al correo electrónico antes de generar el hash
-    const token = hash.digest('base64').substring(0, 10); // Tomar los primeros 10 caracteres del hash codificado en Base64
+    hash.update(pregunta+respuesta + salt); 
+    const token = hash.digest('base64').substring(0, 10);
     return token;
 };
 async function sendTokenByEmail(email, pregunta,token) {
