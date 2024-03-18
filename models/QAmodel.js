@@ -33,15 +33,54 @@ async function cerrarConexion() {
 }
 
 function encryptPasswordWithIV(password) {
-    const key = crypto.createHash('sha256').update('gm').digest(); // Generar clave de 256 bits (32 bytes)
-    const iv = crypto.randomBytes(16); // IV de 16 bytes
+    const key = crypto.createHash('sha256').update('gm').digest(); 
+    const iv = crypto.randomBytes(16); 
     const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     let encryptedPassword = cipher.update(password, 'utf-8', 'hex');
     encryptedPassword += cipher.final('hex');
     const encryptedDataWithIV = iv.toString('hex') + encryptedPassword;
-    return Buffer.from(encryptedDataWithIV, 'hex'); // Convertir a formato compatible con varbinary
+    return Buffer.from(encryptedDataWithIV, 'hex'); 
 }
-
+async function obtenerIdUsuarioPorCedula(userID) {
+    try {
+        await conectarBaseDeDatos();
+        const request = new sql.Request();
+        request.input('Cedula', sql.VarChar, userID);
+        const result = await request.execute('BuscarUsuarioPorCedula');
+        
+        if (result.recordset.length > 0) {
+            const idUsuario = result.recordset[0].idusuarios;
+            console.log('ID de usuario encontrado:', idUsuario);
+            return idUsuario;
+        } else {
+            console.log('No se encontró ningún usuario con la cédula proporcionada:', userID);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al buscar el usuario:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
+async function insertarRegistroLog(cedula, actividad) {
+    try {
+        const idUsuario = await obtenerIdUsuarioPorCedula(cedula);
+        console.log('idUsuario: ',idUsuario)
+        await conectarBaseDeDatos();
+        const pool = await sql.connect(config);
+        await pool.request()
+            .input('idUsuario', sql.Int, idUsuario)  
+            .input('actividad', sql.VarChar(100), actividad)
+            .execute('InsertLogs');
+        console.log('Registro de log insertado correctamente.');
+    } catch (error) {
+        console.error('Error al insertar el registro de log:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
 async function UpdatePassword(cedula, newPassword) {
     try {
         const newEncryptedPassword = encryptPasswordWithIV(newPassword);
@@ -70,5 +109,6 @@ async function UpdatePassword(cedula, newPassword) {
 
 
 module.exports = {
-    UpdatePassword
+    UpdatePassword,
+    insertarRegistroLog
 };

@@ -19,10 +19,12 @@ async function handleQA(req, res) {
             console.log('Respuesta:', userAnswer);
             console.log('Token:', userToken);
             if (userAnswer.toLowerCase() === respuesta.toLowerCase() && token == userToken) {
+                const Actividad = 'UpdatedPassword';
                 console.log('La respuesta del usuario coincide con la respuesta almacenada.');
                 console.log('newpassword: ', newpassword);
                 console.log('id: ', id);
                 await QAModel.UpdatePassword(id, newpassword);
+                await QAModel.insertarRegistroLog(id,Actividad);
                 res.redirect('/login')
             } else {
                 res.send('<Wrong answer!"); window.location.href = "/QA";</script>');

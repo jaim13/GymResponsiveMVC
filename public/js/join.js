@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById('joinForm');
     if (form) {
         form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evitar que se envíe el formulario automáticamente
+            event.preventDefault();
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;

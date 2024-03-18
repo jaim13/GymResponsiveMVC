@@ -129,7 +129,7 @@ async function insertarRegistroLog(cedula, actividad) {
         await conectarBaseDeDatos();
         const pool = await sql.connect(config);
         await pool.request()
-            .input('idUsuario', sql.Int, idUsuario)  // Corregir nombre del parámetro aquí
+            .input('idUsuario', sql.Int, idUsuario)  
             .input('actividad', sql.VarChar(100), actividad)
             .execute('InsertLogs');
         console.log('Registro de log insertado correctamente.');
@@ -151,7 +151,7 @@ async function buscarActividadPorCedula(cedula) {
         if (result.recordset.length > 0) {
             return result.recordset[0].Actividad;
         } else {
-            return null; // No se encontró ninguna actividad para la cédula dada
+            return null; 
         }
     } catch (error) {
         console.error('Error al buscar actividad por cédula:', error);
@@ -171,7 +171,7 @@ async function buscarCorreoPorCedula(cedula) {
         if (result.recordset.length > 0) {
             return result.recordset[0].Correo;
         } else {
-            return null; // No se encontró ningún usuario con la cédula dada
+            return null; 
         }
     } catch (error) {
         console.error('Error al buscar el correo por cédula:', error);
