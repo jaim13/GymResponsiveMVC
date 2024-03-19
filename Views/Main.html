@@ -89,6 +89,26 @@
                             <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
                         </div>
                         <div class="mb-3">
+                            <label for="provincia" class="form-label">Provincia</label>
+                            <select class="form-select" id="provincia" name="provincia">
+                                <option value="">Selecciona una provincia</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="canton" class="form-label">Cantón</label>
+                            <select class="form-select" id="canton" name="canton">
+                                <option value="">Selecciona un cantón</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="distrito" class="form-label">Distrito</label>
+                            <select class="form-select" id="distrito" name="distrito">
+                                <option value="">Selecciona un distrito</option>
+                            </select>
+                        </div>                        
+                        <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter your Password">
@@ -170,6 +190,88 @@
             </div>
         </div>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+$(document).ready(function() {
+    // Obtener la lista de provincias al cargar la página
+    obtenerProvincias();
+
+    // Escuchar cambios en la selección de provincias
+    $('#provincia').on('change', function() {
+        const provinciaSeleccionada = $(this).val();
+        // Obtener los cantones de la provincia seleccionada
+        obtenerCantones(provinciaSeleccionada);
+    });
+});
+
+function obtenerProvincias() {
+    $.ajax({
+        url: 'http://localhost:3001/provincias',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Limpiar el select de provincias
+            $('#provincia').empty();
+            // Iterar sobre la lista de provincias y agregar opciones al select
+            $.each(data, function(index, provincia) {
+                $('#provincia').append($('<option>', {
+                    value: provincia.nombre,
+                    text: provincia.nombre
+                }));
+            });
+            // Obtener los cantones de la primera provincia por defecto
+            const primeraProvincia = data[0].nombre;
+            obtenerCantones(primeraProvincia);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al obtener las provincias:', error);
+        }
+    });
+}
+
+function obtenerCantones(provincia) {
+    $.ajax({
+        url: 'http://localhost:3001/cantones/' + encodeURIComponent(provincia),
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#canton').empty();
+            $.each(data, function(index, canton) {
+                $('#canton').append($('<option>', {
+                    value: canton.nombre,
+                    text: canton.nombre
+                }));
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al obtener los cantones:', error);
+        }
+    });
+}
+function obtenerIdProvincia(nombreProvincia) {
+    // Mapeo de nombres de provincias a IDs numéricos
+    const mapeoProvincias = {
+        'San José': 1,
+        'Alajuela': 2,
+        'Cartago': 3,
+        'Heredia': 4,
+        'Guanacaste': 5,
+        'Puntarenas': 6,
+        'Limón': 7
+    };
+    return mapeoProvincias[nombreProvincia];
+}
+function actualizarURL(provinciaId) {
+    // Construir la URL con el ID de la provincia
+    const nuevaURL = '/cantones/' + provinciaId;
+    // Redirigir a la nueva URL
+    window.location.href = nuevaURL;
+}
+
+    </script>
+    
+    
+    </script>
     <script src="/js/join.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
