@@ -206,25 +206,67 @@ $(document).ready(function() {
     });
 });
 
+function obtenerCantones(provincia) {
+    $.ajax({
+        url: 'http://localhost:3001/cantones/' + encodeURIComponent(provincia),
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            const cantonesSelect = document.getElementById("canton");
+            cantonesSelect.innerHTML = ""; // Limpiar el select antes de agregar opciones
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "Selecciona un cantón";
+            cantonesSelect.appendChild(defaultOption);
+            data.forEach(canton => {
+                const option = document.createElement("option");
+                option.value = canton.nombre;
+                option.textContent = canton.nombre;
+                cantonesSelect.appendChild(option);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al obtener los cantones:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al obtener los cantones.'
+            });
+        }
+    });
+}
+
 function obtenerDistritos(provincia, canton) {
     $.ajax({
         url: 'http://localhost:3001/distritos/' + encodeURIComponent(provincia) + '/' + encodeURIComponent(canton),
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-            $('#distrito').empty();
-            $.each(data, function(index, distrito) {
-                $('#distrito').append($('<option>', {
-                    value: distrito.nombre,
-                    text: distrito.nombre
-                }));
+            const distritosSelect = document.getElementById("distrito");
+            distritosSelect.innerHTML = ""; // Limpiar el select antes de agregar opciones
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "Selecciona un distrito";
+            distritosSelect.appendChild(defaultOption);
+            data.forEach(distrito => {
+                const option = document.createElement("option");
+                option.value = distrito.nombre;
+                option.textContent = distrito.nombre;
+                distritosSelect.appendChild(option);
             });
+            distritosSelect.style.display = "block";
         },
         error: function(xhr, status, error) {
             console.error('Error al obtener los distritos:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al obtener los distritos.'
+            });
         }
     });
 }
+
 
 function obtenerProvincias() {
     $.ajax({
@@ -247,29 +289,6 @@ function obtenerProvincias() {
         }
     });
 }
-
-function obtenerCantones(provincia) {
-    $.ajax({
-        url: 'http://localhost:3001/cantones/' + encodeURIComponent(provincia),
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            $('#canton').empty();
-            $.each(data, function(index, canton) {
-                $('#canton').append($('<option>', {
-                    value: canton.nombre,
-                    text: canton.nombre
-                }));
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al obtener los cantones:', error);
-        }
-    });
-}
-    </script>
-    
-    
     </script>
     <script src="/js/join.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

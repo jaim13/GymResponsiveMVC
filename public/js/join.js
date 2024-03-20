@@ -35,23 +35,26 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const selectedCanton = this.value;
             console.log("Cantón seleccionado:", selectedCanton);
-
+    
             const selectedProvince = document.getElementById("provincia").value;
-            const response = await fetch(`/distritos/${selectedProvince}/${selectedCanton}`);
+            const response = await fetch(`/distritos/${encodeURIComponent(selectedProvince)}/${encodeURIComponent(selectedCanton)}`);
             console.log("Respuesta de getDistritos:", response); // Verifica si la respuesta está llegando correctamente
-
+    
             const responseData = await response.json();
             console.log("Datos de getDistritos:", responseData); // Verifica si los datos devueltos son correctos
-
+    
             const distritosSelect = document.getElementById("distrito");
-            distritosSelect.innerHTML = "";
+            distritosSelect.innerHTML = ""; // Vacía el select antes de agregar opciones
+            console.log("Select antes de agregar opciones:", distritosSelect.outerHTML); // Muestra el select antes de agregar opciones
+    
             responseData.forEach(distrito => {
                 const option = document.createElement("option");
                 option.value = distrito;
                 option.textContent = distrito;
                 distritosSelect.appendChild(option);
             });
-
+    
+            console.log("Select después de agregar opciones:", distritosSelect.outerHTML); // Muestra el select después de agregar opciones
             distritosSelect.style.display = "block";
         } catch (error) {
             console.error('Error:', error);
@@ -62,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     });
+    
     const form = document.getElementById('joinForm');
     if (form) {
         form.addEventListener('submit', function(event) {
