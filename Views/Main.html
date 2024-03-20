@@ -193,16 +193,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
 $(document).ready(function() {
-    // Obtener la lista de provincias al cargar la página
     obtenerProvincias();
 
-    // Escuchar cambios en la selección de provincias
     $('#provincia').on('change', function() {
         const provinciaSeleccionada = $(this).val();
-        // Obtener los cantones de la provincia seleccionada
         obtenerCantones(provinciaSeleccionada);
     });
+    $('#canton').on('change', function() {
+        const provinciaSeleccionada = $('#provincia').val();
+        const cantonSeleccionado = $(this).val();
+        obtenerDistritos(provinciaSeleccionada, cantonSeleccionado);
+    });
 });
+
+function obtenerDistritos(provincia, canton) {
+    $.ajax({
+        url: 'http://localhost:3001/distritos/' + encodeURIComponent(provincia) + '/' + encodeURIComponent(canton),
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#distrito').empty();
+            $.each(data, function(index, distrito) {
+                $('#distrito').append($('<option>', {
+                    value: distrito.nombre,
+                    text: distrito.nombre
+                }));
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al obtener los distritos:', error);
+        }
+    });
+}
 
 function obtenerProvincias() {
     $.ajax({
@@ -210,16 +232,13 @@ function obtenerProvincias() {
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-            // Limpiar el select de provincias
             $('#provincia').empty();
-            // Iterar sobre la lista de provincias y agregar opciones al select
             $.each(data, function(index, provincia) {
                 $('#provincia').append($('<option>', {
                     value: provincia.nombre,
                     text: provincia.nombre
                 }));
             });
-            // Obtener los cantones de la primera provincia por defecto
             const primeraProvincia = data[0].nombre;
             obtenerCantones(primeraProvincia);
         },
@@ -248,26 +267,6 @@ function obtenerCantones(provincia) {
         }
     });
 }
-function obtenerIdProvincia(nombreProvincia) {
-    // Mapeo de nombres de provincias a IDs numéricos
-    const mapeoProvincias = {
-        'San José': 1,
-        'Alajuela': 2,
-        'Cartago': 3,
-        'Heredia': 4,
-        'Guanacaste': 5,
-        'Puntarenas': 6,
-        'Limón': 7
-    };
-    return mapeoProvincias[nombreProvincia];
-}
-function actualizarURL(provinciaId) {
-    // Construir la URL con el ID de la provincia
-    const nuevaURL = '/cantones/' + provinciaId;
-    // Redirigir a la nueva URL
-    window.location.href = nuevaURL;
-}
-
     </script>
     
     

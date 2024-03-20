@@ -119,28 +119,143 @@ app.get('/cantones/:provinciaId', async (req, res) => {
         res.status(500).json({ success: false, error: 'Ocurrió un error al obtener los cantones' });
     }
 });
-
-
+function obtenerIdCanton(idProvincia, nombreCanton) {
+    const cantones = {
+        1: {
+            "Central": 1,
+            "Escazú": 2,
+            "Desamparados": 3,
+            "Puriscal": 4,
+            "Tarrazú": 5,
+            "Aserrí": 6,
+            "Mora": 7,
+            "Goicoechea": 8,
+            "Santa Ana": 9,
+            "Alajuelita": 10,
+            "Vázquez De Coronado": 11,
+            "Acosta": 12,
+            "Tibás": 13,
+            "Moravia": 14,
+            "Montes De Oca": 15,
+            "Turrubares": 16,
+            "Dota": 17,
+            "Curridabat": 18,
+            "Pérez Zeledón": 19,
+            "León Cortés Castro": 20
+        },
+        2: {
+            "Central": 1,
+            "San Ramón": 2,
+            "Grecia": 3,
+            "San Mateo": 4,
+            "Atenas": 5,
+            "Naranjo": 6,
+            "Palmares": 7,
+            "Poás": 8,
+            "Orotina": 9,
+            "San Carlos": 10,
+            "Zarcero": 11,
+            "Sarchí": 12,
+            "Upala": 13,
+            "Los Chiles": 14,
+            "Guatuso": 15,
+            "Río Cuarto": 16
+        },
+        3: {
+            "Central": 1,
+            "Paraíso": 2,
+            "La Unión": 3,
+            "Jiménez": 4,
+            "Turrialba": 5,
+            "Alvarado": 6,
+            "Oreamuno": 7,
+            "El Guarco": 8
+        },
+        4: {
+            "Central": 1,
+            "Barva": 2,
+            "Santo Domingo": 3,
+            "Santa Barbara": 4,
+            "San Rafael": 5,
+            "San Isidro": 6,
+            "Belén": 7,
+            "Flores": 8,
+            "San Pablo": 9,
+            "Sarapiquí": 10
+        },
+        5: {
+            "Liberia": 1,
+            "Nicoya": 2,
+            "Santa Cruz": 3,
+            "Bagaces": 4,
+            "Carrillo": 5,
+            "Cañas": 6,
+            "Abangares": 7,
+            "Tilarán": 8,
+            "Nandayure": 9,
+            "La Cruz": 10,
+            "Hojancha": 11
+        },
+        6: {
+            "Central": 1,
+            "Esparza": 2,
+            "Buenos Aires": 3,
+            "Montes De Oro": 4,
+            "Osa": 5,
+            "Quepos": 6,
+            "Golfito": 7,
+            "Coto Brus": 8,
+            "Parrita": 9,
+            "Corredores": 10,
+            "Garabito": 11
+        }
+    };
+    const canton = cantones[idProvincia];
+    if (canton) {
+        const idCanton = ('0' + canton[nombreCanton]).slice(-2);
+        console.log('ID del cantón:', idCanton);
+        return idCanton !== undefined ? idCanton : null;
+    } else {
+        console.log('La provincia no tiene cantones definidos.');
+        return null;
+    }
+}
 app.get('/distritos/:provincia/:canton', async (req, res) => {
     try {
-        const provincia = req.params.provincia;
-        const canton = req.params.canton;
-        // Verificar si la provincia y el cantón existen en tus datos
-        if (data.provincias.hasOwnProperty(provincia) && data.provincias[provincia].cantones.hasOwnProperty(canton)) {
-            const distritos = Object.values(data.provincias[provincia].cantones[canton].distritos);
-            res.json(distritos);
+        const nombreProvincia = req.params.provincia;
+        console.log('Nombre de la provincia:', nombreProvincia);
+
+        const idProvincia = obtenerIdProvincia(nombreProvincia);
+        console.log('ID de la provincia:', idProvincia);
+
+        const nombreCanton = req.params.canton;
+        console.log('Nombre del cantón:', nombreCanton);
+
+        const idCanton = obtenerIdCanton(idProvincia, nombreCanton);
+        console.log('ID del cantón:', idCanton);
+        const provincias = data.provincias;
+        if (provincias.hasOwnProperty(idProvincia)) {
+            console.log('Provincia encontrada en el JSON');
+            const provincia = provincias[idProvincia];
+            const cantones = provincia.cantones;
+            if (cantones.hasOwnProperty(idCanton)) {
+                console.log('Cantón encontrado en el JSON');
+                const distritos = Object.values(cantones[idCanton].distritos);
+                console.log('Distritos encontrados:', distritos);
+                res.json(distritos);
+            } else {
+                console.log('Cantón no encontrado en el JSON');
+                res.status(404).json({ success: false, error: 'El cantón especificado no existe' });
+            }
         } else {
-            res.status(404).json({ success: false, error: 'La provincia o el cantón especificado no existe' });
+            console.log('Provincia no encontrada en el JSON');
+            res.status(404).json({ success: false, error: 'La provincia especificada no existe' });
         }
     } catch (error) {
         console.error('Error al obtener los distritos:', error);
         res.status(500).json({ success: false, error: 'Ocurrió un error al obtener los distritos' });
     }
 });
-
-
-
-
 
 
 app.post('/submit-form', async (req, res) => {

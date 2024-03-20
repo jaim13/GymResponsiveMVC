@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Provincia seleccionada:", selectedProvince);
 
             const response = await fetch(`/cantones/${selectedProvince}`);
-            console.log("Respuesta de getCantones:", response); // Verifica si la respuesta está llegando correctamente
+            console.log("Respuesta de getCantones:", response); 
 
             const responseData = await response.json();
             console.log("Datos de getCantones:", responseData); // Verifica si los datos devueltos son correctos
