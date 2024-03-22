@@ -301,11 +301,37 @@ app.post('/submit_inbody', InBodycontroller.handleInBodyData);
 app.post('/WorkwithUs', WWUcontroller.submitCV);
 app.post('/Companycontroller', Companycontroller.handleCompanyForm);
 
-app.post('/submit-payment', (req, res) => {
-
-    const userID = req.cookies.userID;
-    paymentController.handlePayment(req, res, userID);
+app.post('/submit-payment', async (req, res) => {
+    try {
+        const userID = req.cookies.userID;
+        await paymentController.handlePayment(req, res, userID);
+    } catch (error) {
+        console.error('Error al procesar el pago:', error);
+        res.status(500).send('Ocurrió un error al procesar el pago.');
+    }
 });
+
+app.get('/obtener-tipo-cambio', async (req, res) => {
+    try {
+        const tipoDeCambio = await paymentController.obtenerTipoDeCambio();
+        console.log('Tipo de cambio de compra en el server: ',  tipoDeCambio);
+        res.json({ tipoDeCambio });
+    } catch (error) {
+        console.error('Error al obtener el tipo de cambio:', error);
+        res.status(500).send('Ocurrió un error al obtener el tipo de cambio.');
+    }
+});
+app.get('/obtener-tipo-cambio-Venta', async (req, res) => {
+    try {
+        const tipoDeCambio = await paymentController.obtenerTipoDeCambioVenta();
+        console.log('Tipo de cambio de venta en el server: ',  tipoDeCambio);
+        res.json({ tipoDeCambio });
+    } catch (error) {
+        console.error('Error al obtener el tipo de cambio:', error);
+        res.status(500).send('Ocurrió un error al obtener el tipo de cambio.');
+    }
+});
+
 app.post('/showUserInfoButton', usercontroller.getUserInfo);
 app.get('/getUserInfo', usercontroller.getUserInfo);
 

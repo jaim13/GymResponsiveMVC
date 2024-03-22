@@ -89,23 +89,23 @@
                             <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
                         </div>
                         <div class="mb-3">
-                            <label for="provincia" class="form-label">Provincia</label>
+                            <label for="provincia" class="form-label">Province</label>
                             <select class="form-select" id="provincia" name="provincia">
-                                <option value="">Selecciona una provincia</option>
+                                <option value="">Select your province</option>
                             </select>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="canton" class="form-label">Cantón</label>
+                            <label for="canton" class="form-label">Area</label>
                             <select class="form-select" id="canton" name="canton">
-                                <option value="">Selecciona un cantón</option>
+                                <option value="">Select your Area</option>
                             </select>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="distrito" class="form-label">Distrito</label>
+                            <label for="distrito" class="form-label">District</label>
                             <select class="form-select" id="distrito" name="distrito">
-                                <option value="">Selecciona un distrito</option>
+                                <option value="">Select your district</option>
                             </select>
                         </div>                        
                         <div class="mb-3">
@@ -212,17 +212,13 @@ function obtenerCantones(provincia) {
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-            const cantonesSelect = document.getElementById("canton");
-            cantonesSelect.innerHTML = ""; // Limpiar el select antes de agregar opciones
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.textContent = "Selecciona un cantón";
-            cantonesSelect.appendChild(defaultOption);
-            data.forEach(canton => {
-                const option = document.createElement("option");
-                option.value = canton.nombre;
-                option.textContent = canton.nombre;
-                cantonesSelect.appendChild(option);
+            const cantonesSelect = $("#canton");
+            cantonesSelect.empty(); // Limpiar el select antes de agregar opciones
+            const defaultOption = $("<option>").val("").text("Select your Area");
+            cantonesSelect.append(defaultOption);
+            $.each(data, function(index, canton) {
+                const option = $("<option>").val(canton.nombre).text(canton.nombre);
+                cantonesSelect.append(option);
             });
         },
         error: function(xhr, status, error) {
@@ -241,22 +237,20 @@ function obtenerDistritos(provincia, canton) {
         url: 'http://localhost:3001/distritos/' + encodeURIComponent(provincia) + '/' + encodeURIComponent(canton),
         method: 'GET',
         dataType: 'json',
-        success: function(data) {
-            const distritosSelect = document.getElementById("distrito");
-            distritosSelect.innerHTML = ""; // Limpiar el select antes de agregar opciones
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.textContent = "Selecciona un distrito";
-            distritosSelect.appendChild(defaultOption);
-            data.forEach(distrito => {
-                const option = document.createElement("option");
-                option.value = distrito.nombre;
-                option.textContent = distrito.nombre;
-                distritosSelect.appendChild(option);
+            success: function(data) {
+            const distritosSelect = $("#distrito");
+            distritosSelect.empty(); // Limpiar el select antes de agregar opciones
+            const defaultOption = $("<option>").val("").text("Select your district");
+            distritosSelect.append(defaultOption);
+            console.log('Distritos: ', data);
+            $.each(data, function(index, distrito) {
+                const option = $("<option>").text(distrito);
+                distritosSelect.append(option);
+                console.log('Distritos dentro del select: ', option);
             });
-            distritosSelect.style.display = "block";
+            distritosSelect.css("display", "block");
         },
-        error: function(xhr, status, error) {
+            error: function(xhr, status, error) {
             console.error('Error al obtener los distritos:', error);
             Swal.fire({
                 icon: 'error',
