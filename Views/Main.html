@@ -211,6 +211,16 @@ $(document).ready(function() {
         }
     });
 });
+function actualizarSelectDistrito(distrito) {
+    const distritosSelect = $("#distrito");
+    distritosSelect.empty(); // Limpiar el contenido actual del selector
+    const defaultOption = $("<option>").val("").text("Select your district");
+    distritosSelect.append(defaultOption);
+    if (distrito !== null && distrito !== undefined) {
+        const option = $("<option>").val(distrito).text(distrito);
+        distritosSelect.append(option);
+    }
+}
 function buscarCedula(cedula) {
     $.ajax({
         url: 'http://localhost:3000/api/buscar-cedula',
@@ -219,15 +229,23 @@ function buscarCedula(cedula) {
         data: JSON.stringify({ cedula: cedula }),
         success: function(data) {
             // Llenar los campos del formulario con los datos obtenidos
-            console.log('Datos recibidos de la API de registro: ',data);
-            console.log('Edad: ',data.edad);
-            console.log('Distrito: ',data.distrito);
+            console.log('Datos recibidos de la API de registro: ', data);
+            console.log('Edad: ', data.edad);
+            console.log('Distrito: ', data.distrito);
+            if (data.distrito !== null && data.distrito !== undefined) {
+                console.log('El campo distrito está presente en los datos recibidos.');
+            } else {
+                console.log('El campo distrito no está presente o es null.');
+            }
             $('#fullName').val(data.nombre);
             $('#age').val(data.edad);
             $('#provincia').val(data.provincia);
             $('#canton').val(data.canton);
             $('#distrito').val(data.distrito);
+            console.log('Valor del campo de distrito después de asignarlo:', $('#distrito').val());
             $('#ageValue').text(data.edad);
+            // Llamar a la función para actualizar el campo de selección de distrito
+            actualizarSelectDistrito(data.distrito);
         },
         error: function(xhr, status, error) {
             console.error('Error al buscar la cédula:', error);
@@ -239,6 +257,7 @@ function buscarCedula(cedula) {
         }
     });
 }
+
 function obtenerCantones(provincia) {
     $.ajax({
         url: 'http://localhost:3001/cantones/' + encodeURIComponent(provincia),
@@ -271,18 +290,18 @@ function obtenerDistritos(provincia, canton) {
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-        const distritosSelect = $("#distrito");
-        distritosSelect.html(''); // Limpiar el contenido actual del selector
-        const defaultOption = $("<option>").val("").text("Select your district");
-        distritosSelect.append(defaultOption);
-        console.log('Distritos: ', data);
-        $.each(data, function(index, distrito) {
-            const option = $("<option>").val(distrito).text(distrito);
-            distritosSelect.append(option);
-            console.log('Distritos dentro del select: ', option);
-        });
-        distritosSelect.css("display", "block");
+            const distritosSelect = $("#distrito");
+            distritosSelect.empty(); // Limpiar el contenido actual del selector
+            const defaultOption = $("<option>").val("").text("Select your district");
+            distritosSelect.append(defaultOption);
+            console.log('Distritos: ', data);
+            $.each(data, function(index, distrito) {
+                const option = $("<option>").val(distrito).text(distrito);
+                distritosSelect.append(option);
+            });
+            distritosSelect.css("display", "block");
         },
+
 
         error: function(xhr, status, error) {
             console.error('Error al obtener los distritos:', error);
