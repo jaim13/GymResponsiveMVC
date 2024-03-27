@@ -25,10 +25,28 @@ const obtenerTipoDeCambioVenta = async () => {
 // Función para manejar el pago
 const handlePayment = async (req, res, userID) => {
     try {
-        let monto = req.body.monto; 
+        let monto = req.body.monto;
 
-        if (req.body.metodoPago === 'tarjeta') {
-            monto = 3000;
+        if (req.body.metodoPago === "transferencia") {
+            let numero_cuenta = req.body.numeroCuenta;
+            const resultadoAPI = await paymentModel.PagoTransferencia(numero_cuenta,userID);
+            if (resultadoAPI) {
+                console.log('Cuenta validada y monto restado exitosamente');
+            } else {
+                res.send('<script>alert("We are sorry, but We had a problem with your payment!"); window.location.href = "/pago";</script>');
+                return;
+            }
+        } else if (req.body.metodoPago === "tarjeta") {
+            let numeroTarjeta = req.body.numeroTarjeta;
+            let cvv = req.body.codigoSeguridad;
+            let Expira = req.body.fechaExpiracion;
+            const resultadoAPI = await paymentModel.PagoTarjeta(numeroTarjeta, cvv, Expira, userID);
+            if (resultadoAPI) {
+                console.log('Tarjeta validada y monto restado exitosamente');
+            } else {
+                res.send('<script>alert("We are sorry, but We had a problem with your payment!"); window.location.href = "/pago";</script>');
+                return;
+            }
         }
 
         const paymentData = {

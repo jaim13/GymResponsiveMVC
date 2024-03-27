@@ -53,6 +53,7 @@ async function obtenerIdUsuarioPorCedula(userID) {
         await cerrarConexion();
     }
 }
+
 async function insertarPagoEnBaseDeDatos(FechaPago, Monto, MetodoPago, idUsuario) {
     try {
         await conectarBaseDeDatos();
@@ -131,6 +132,28 @@ async function obtenerTipoDeCambio() {
     }
 }
 
+async function obteneridmembresia(idUsuario) {
+    try {
+        await conectarBaseDeDatos();
+        const request = new sql.Request();
+        request.input('idUsuario', sql.Int, idUsuario);
+        const result = await request.query(`SELECT [idMembresia] FROM [Proyecto1_PrograV].[dbo].[Usuarios] WHERE [idusuarios] = @idUsuario`);
+        
+        if (result.recordset.length > 0) {
+            const idMembresia = result.recordset[0].idMembresia;
+            console.log('ID de membresía encontrado:', idMembresia);
+            return idMembresia;
+        } else {
+            console.log('No se encontró ninguna membresía para el usuario con ID:', idUsuario);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la membresía del usuario:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
 
 
 async function obtenerTipoDeCambioVenta() {
@@ -191,6 +214,79 @@ async function obtenerTipoDeCambioVenta() {
     }
 }
 
+async function PagoTransferencia(numero_cuenta,userID) {
+    try {
+        const idUsuario = await obtenerIdUsuarioPorCedula(userID);
+        const idMembresia = await obteneridmembresia(idUsuario);
+        let montoAPagar = 0;
+        if (idMembresia === 1) {
+            montoAPagar = 35000;
+        } else {
+            montoAPagar = 25000;
+        }
+
+        const data = {
+            numero_cuenta: numero_cuenta,
+            cantidad: montoAPagar
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+
+        const apiUrl = 'http://localhost:5000/restar_monto';
+
+        const response = await fetch(apiUrl, requestOptions);
+        const responseData = await response.json();
+
+        return responseData.resultado; // Devolver el valor booleano resultado
+
+    } catch (error) {
+        console.error('Error al procesar el pago:', error);
+        return false; // En caso de error, devolver false
+    }
+}
+
+async function PagoTarjeta(numeroTarjeta, cvv, expiracion,userID) {
+    try {
+        const idUsuario = await obtenerIdUsuarioPorCedula(userID);
+        const idMembresia = await obteneridmembresia(idUsuario);
+        let montoAPagar = 0;
+        if (idMembresia === 1) {
+            montoAPagar = 35000;
+        } else {
+            montoAPagar = 25000;
+        }
+
+        const response = await fetch('http://localhost:5000/validar_tarjeta', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        numero_tarjeta: numeroTarjeta,
+        expira: expiracion,
+        codigo: cvv,
+        monto: montoAPagar
+    })
+});
+
+        
+
+        const responseData = await response.json();
+
+        return responseData.resultado; // Devolver el valor booleano resultado
+
+    } catch (error) {
+        console.error('Error al procesar el pago:', error);
+        return false; // En caso de error, devolver false
+    }
+}
+
 
 async function processPayment(paymentData, userID) {
     try {
@@ -198,9 +294,16 @@ async function processPayment(paymentData, userID) {
         console.log('ID de usuario obtenido de la cookie:', userID);
 
         const idUsuario = await obtenerIdUsuarioPorCedula(userID);
+        const idMembresia = await obteneridmembresia(idUsuario);
+        var  montoAPagar = 0;
+        if (idMembresia === 1){
+            montoAPagar= 35000;
+        }else{
+            montoAPagar = 25000;
+        } 
         console.log('ID de usuario obtenido de la base de datos:', idUsuario);
-
-        await insertarPagoEnBaseDeDatos(paymentData.fechaPago, paymentData.monto, paymentData.metodoPago, idUsuario);
+        console.log('Monto a pagar: ',montoAPagar);
+        await insertarPagoEnBaseDeDatos(paymentData.fechaPago, montoAPagar, paymentData.metodoPago, idUsuario);
         return { success: true, message: 'Pago procesado correctamente' };
 
     } catch (error) {
@@ -211,5 +314,7 @@ async function processPayment(paymentData, userID) {
 module.exports = {
     processPayment,
     obtenerTipoDeCambio,
-    obtenerTipoDeCambioVenta
+    obtenerTipoDeCambioVenta,
+    PagoTransferencia,
+    PagoTarjeta
 };
