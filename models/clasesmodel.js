@@ -1,109 +1,53 @@
-const sql = require('mssql');
-const config = {
-    user: 'JaimDavid',
-    password: '1234',
-    server: 'localhost',
-    database: 'Proyecto1_PrograV',
-    options: {
-        encrypt: true,
-        trustServerCertificate: true
-    }
-};
-
-async function conectarBaseDeDatos() {
-    try {
-        await sql.connect(config);
-        console.log('Conexión establecida correctamente.');
-    } catch (error) {
-        console.log('Error al conectar a la base de datos:', error);
-        throw error;
-    }
-}
-
-async function cerrarConexion() {
-    try {
-        await sql.close();
-        console.log('Conexión cerrada correctamente.');
-    } catch (error) {
-        console.log('Error al cerrar la conexión a la base de datos:', error);
-        throw error;
-    }
-}
-
-async function obtenerIdUsuarioPorCedula(userID) {
-    try {
-        await conectarBaseDeDatos();
-        const request = new sql.Request();
-        request.input('Cedula', sql.VarChar, userID);
-        const result = await request.execute('BuscarUsuarioPorCedula');
-        
-        if (result.recordset.length > 0) {
-            const idUsuario = result.recordset[0].idusuarios;
-            console.log('ID de usuario encontrado:', idUsuario);
-            return idUsuario;
-        } else {
-            console.log('No se encontró ningún usuario con la cédula proporcionada:', userID);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error al buscar el usuario:', error);
-        throw error;
-    } finally {
-        await cerrarConexion();
-    }
-}
 
 async function insertclases(userID, idClase) {
     try {
+        const response = await fetch('http://localhost:3020/insertarClase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: userID,
+                idClase: idClase
+            })
+        });
 
-        const idUsuario = await obtenerIdUsuarioPorCedula(userID);
-
-        if (idUsuario !== null) {
-            await conectarBaseDeDatos();
-            const request = new sql.Request();
-            request.input('idUsuario', sql.Int, idUsuario);
-            request.input('idClase', sql.Int, idClase);
-            await request.execute('InsertarUserClass');
-            
-            console.log('Registro insertado correctamente en la tabla User_Class.');
-        } else {
-            console.log('No se puede insertar el registro en la tabla User_Class porque no se encontró el usuario con la cédula proporcionada.');
+        if (!response.ok) {
+            throw new Error('Error al insertar la clase');
         }
+
+        const data = await response.json();
+        console.log(data.message); // Mensaje de éxito del servidor
     } catch (error) {
-        console.error('Error al ejecutar el método principal:', error);
-        throw error;
-    } finally {
-        await cerrarConexion();
+        console.error('Error al insertar la clase:', error.message);
     }
 }
+
 async function WatchClass(cedula) {
     try {
-        const idUsuario = await obtenerIdUsuarioPorCedula(cedula);
-        if (idUsuario) {
-            console.log(`ID de usuario encontrado para cédula ${cedula}: ${idUsuario}`);
-            await conectarBaseDeDatos();
-            const request = new sql.Request();
-            request.input('idusuarios', sql.Int, idUsuario);
-            const result = await request.execute('BuscarClasesPorUsuario');
-            if (result.recordset.length > 0) {
-                console.log('Clases encontradas:');
-                const clasesEncontradas = result.recordset.map(row => row.nombreClase);
-                return clasesEncontradas;
-            } else {
-                console.log('No se encontraron clases para el usuario con idusuarios:', idUsuario);
-                return [];
-            }
-        } else {
-            console.log('No se encontró ningún usuario con la cédula proporcionada:', cedula);
-            return [];
+        const response = await fetch('http://localhost:3020/verClases', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cedula: cedula
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener las clases');
         }
+
+        const clases = await response.json();
+        console.log('Clases encontradas:', clases);
+        return clases; // Agregar el retorno de las clases obtenidas
     } catch (error) {
-        console.error('Error al ejecutar WatchClass:', error);
+        console.error('Error al obtener las clases:', error.message);
         throw error;
-    } finally {
-        await cerrarConexion();
     }
 }
+
 
 module.exports = {
     insertclases,

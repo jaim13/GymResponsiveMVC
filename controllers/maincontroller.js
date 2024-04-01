@@ -94,51 +94,6 @@ const handleFormSubmit = async (req, res) => {
         res.status(500).json({ success: false, error: 'Ocurrió un error al procesar el formulario' });
     }
 };
-const getProvinces = async (req, res) => {
-    try {
-        
-        const data = await mainModel.getSelectData();
-        const provinces = data.provinces;
-        res.json({ provinces });
-        console.log('Provincias: ', provinces);
-    } catch (error) {
-        console.error('Error al obtener las provincias:', error);
-        res.status(500).json({ success: false, error: 'Ocurrió un error al obtener las provincias' });
-    }
-};
-
-const getCantones = async (req, res) => {
-    try {
-        
-        const { province } = req.query;
-
-        const data = await mainModel.getSelectData(province);
-        const cantones = data.cantones;
-        res.json({ cantones });
-        console.log('Cantones: ', cantones);
-    } catch (error) {
-        console.error('Error al obtener los cantones:', error);
-        res.status(500).json({ success: false, error: 'Ocurrió un error al obtener los cantones' });
-    }
-};
-
-const getDistritos = async (req, res) => {
-    try {
-        const { canton } = req.query;
-
-        const data = await mainModel.getSelectData(canton);
-        const distritos = data.distritos;
-        res.json({ distritos });
-        console.log('Distritos: ', distritos);
-    } catch (error) {
-        console.error('Error al obtener los distritos:', error);
-        res.status(500).json({ success: false, error: 'Ocurrió un error al obtener los distritos' });
-    }
-};
-
 module.exports = {
     handleFormSubmit,
-    getProvinces,
-    getCantones,
-    getDistritos
 };
