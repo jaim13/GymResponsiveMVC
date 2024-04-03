@@ -47,6 +47,13 @@ const handlePayment = async (req, res, userID) => {
                 res.send('<script>alert("We are sorry, but We had a problem with your payment!"); window.location.href = "/pago";</script>');
                 return;
             }
+        }else{
+            let Description = req.body.DescriptionPaypal
+            let CorreoPaypal = req.body.emailPaypal
+            const redirectUrl = await paymentModel.PaymentPaypal(Description, CorreoPaypal, userID);
+
+            res.redirect(redirectUrl);
+            return;
         }
 
         const paymentData = {

@@ -1,6 +1,12 @@
 const sql = require('mssql');
 const axios = require('axios');
 const xml2js = require('xml2js');
+import('node-fetch').then(fetch => {
+    // Aquí puedes usar la función fetch
+}).catch(err => {
+    console.error('Error al importar el módulo node-fetch:', err);
+});
+
 const config = {
     user: 'JaimDavid',
     password: '1234',
@@ -213,6 +219,50 @@ async function obtenerTipoDeCambioVenta() {
         throw error; // Puedes lanzar el error para manejarlo desde la llamada a la función
     }
 }
+async function PaymentPaypal(Description, Correo, userID) {
+    try {
+        const idUsuario = await obtenerIdUsuarioPorCedula(userID);
+        const idMembresia = await obteneridmembresia(idUsuario);
+        let montoAPagar = 0;
+        if (idMembresia === 1) {
+            montoAPagar = 35000;
+        } else {
+            montoAPagar = 25000;
+        }
+
+        const data = {
+            monto: montoAPagar,
+            descripcion: Description,
+            correo_destinatario: Correo
+        };
+
+        const response = await fetch('http://localhost:5000/realizar_pago_paypal', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            if (responseData.resultado && responseData.redirect_url) {
+                // Devuelve la URL de redireccionamiento proporcionada por PayPal
+                return responseData.redirect_url;
+            } else {
+                console.error('Error al procesar el pago:', responseData);
+                throw new Error('Error al procesar el pago en la API de PayPal.');
+            }
+        } else {
+            console.error('Error al procesar el pago:', response.statusText);
+            throw new Error('Error al procesar el pago en la API de PayPal.');
+        }
+    } catch (error) {
+        console.error('Error al procesar el pago:', error);
+        throw error;
+    }
+}
+
 
 async function PagoTransferencia(numero_cuenta,userID) {
     try {
@@ -316,5 +366,6 @@ module.exports = {
     obtenerTipoDeCambio,
     obtenerTipoDeCambioVenta,
     PagoTransferencia,
-    PagoTarjeta
+    PagoTarjeta,
+    PaymentPaypal
 };

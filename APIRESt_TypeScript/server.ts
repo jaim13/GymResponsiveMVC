@@ -59,6 +59,25 @@ app.post('/api/buscar-cedula', async (req, res) => {
     }
 });
 
+app.post('/api/buscar-cedula', async (req, res) => {
+    const { cedula } = req.body;
+
+    try {
+        // Realizar la consulta a la base de datos
+        const result = await sql.query`SELECT * FROM Personas WHERE cedula = ${cedula}`;
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: 'Cédula no encontrada en la base de datos' });
+        }
+
+        // Devolver los resultados de la consulta
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error('Error al ejecutar la consulta: ' + err);
+        res.status(500).json({ error: 'Error al buscar la cédula en la base de datos' });
+    }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor en ejecución en http://localhost:${port}`);
