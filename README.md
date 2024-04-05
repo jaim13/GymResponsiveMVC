@@ -9,7 +9,6 @@ In addition, to improve functionality and user convenience, I have incorporated 
 
 This project reflects my dedication to software development and my commitment to creating innovative and practical solutions.
 
-Translated with DeepL.com (free version)
 Español: Me complace presentar mi último proyecto personal, una plataforma simuladora de gimnasio diseñada con pasión y tecnología de vanguardia. Este proyecto fusiona una variedad de tecnologías, incluyendo JavaScript, SQL, HTML, CSS, TypeScript, Python y AJAX, entre otras, para crear una experiencia interactiva y dinámica.
 
 Siguiendo los principios de organización y seguridad, he implementado la arquitectura Modelo-Vista-Controlador (MVC), lo que garantiza un código limpio y modular, además de una experiencia de usuario intuitiva.
