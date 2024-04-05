@@ -1,5 +1,5 @@
 English:
-I am pleased to present my latest personal project, a gym simulator platform designed with passion and cutting-edge technology. This project fuses a variety of technologies, including JavaScript, SQL, HTML, CSS, TypeScript, Python and AJAX, among others, to create an interactive and dynamic experience.
+I am pleased to present my latest personal project, a gym simulator platform designed with passion and cutting-edge technology. This project fuses a variety of technologies, including JavaScript(Node.js), SQL, HTML, CSS, TypeScript, Python and AJAX, among others, to create an interactive and dynamic experience.
 
 I also implemented few API´s made by me, to show the ability in the back-end enviroment.
 
@@ -11,7 +11,7 @@ In addition, to improve functionality and user convenience, I have incorporated 
 
 This project reflects my dedication to software development and my commitment to creating innovative and practical solutions.
 
-Español: Me complace presentar mi último proyecto personal, una plataforma simuladora de gimnasio diseñada con pasión y tecnología de vanguardia. Este proyecto fusiona una variedad de tecnologías, incluyendo JavaScript, SQL, HTML, CSS, TypeScript, Python y AJAX, entre otras, para crear una experiencia interactiva y dinámica.
+Español: Me complace presentar mi último proyecto personal, una plataforma simuladora de gimnasio diseñada con pasión y tecnología de vanguardia. Este proyecto fusiona una variedad de tecnologías, incluyendo JavaScript(Node.js), SQL, HTML, CSS, TypeScript, Python y AJAX, entre otras, para crear una experiencia interactiva y dinámica.
 
 También se implemento algunas API´s hechas por mi, para mostrar la abilidad en el entorno back-end.  
 
