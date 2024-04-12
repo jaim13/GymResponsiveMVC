@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log("El evento DOMContentLoaded se ha disparado.");
     const form = document.getElementById('joinForm');
+
     if (form) {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -10,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const confirmPassword = document.getElementById('confirmPassword').value;
             const age = parseInt(document.getElementById('age').value);
             const passwordError = validatePassword(password);
+
             if (passwordError) {
                 showError(passwordError);
                 return;
@@ -19,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 showError('Confirm password doesn´t match.');
                 return;
             }
+
             form.submit();
         });
 

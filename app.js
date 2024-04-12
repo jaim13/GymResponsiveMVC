@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-
+const favicon = require('serve-favicon');
 
 const personalController = require('./controllers/personalcontroller'); 
 const mainController = require('./controllers/maincontroller');
@@ -27,6 +27,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+
+const faviconPath = path.join(__dirname, 'public', 'images', 'faviconicono.png');
+
+// Configurar el favicon para que sirva desde la ubicación deseada
+app.use(favicon(faviconPath));
 
 
 app.use((err, req, res, next) => {

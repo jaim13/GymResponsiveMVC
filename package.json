@@ -10,6 +10,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.12",
     "papaparse": "^5.4.1",
+    "serve-favicon": "^2.5.0",
     "sweetalert2": "^11.10.5",
     "xml2js": "^0.6.2"
   },

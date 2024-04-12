@@ -63,12 +63,11 @@ def realizar_pago_paypal():
 
 @app.route('/pago_exitoso', methods=['GET'])
 def pago_exitoso():
-    # Aquí puedes manejar la lógica después de que el usuario haya completado el pago exitosamente
+
     return redirect('http://localhost:3001/login'), 302
 
 @app.route('/pago_cancelado', methods=['GET'])
 def pago_cancelado():
-    # Aquí puedes manejar la lógica si el usuario cancela el pago
     return redirect('http://localhost:3001/pago'), 302
 
 
@@ -106,7 +105,6 @@ def validar_tarjeta():
     
     # Verificar si la tarjeta tiene suficientes fondos
     if tarjeta.Monto >= monto_a_restar:
-        # Realizar la resta del monto
         tarjeta.Monto -= monto_a_restar
         db.session.commit()
         return jsonify({'resultado': True, 'mensaje': 'Tarjeta validada y monto restado exitosamente'}), 200
