@@ -1,0 +1,50 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype'); 
+}
+body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px; /* Limita el ancho del formulario */
+            margin: auto; /* Centra el formulario horizontalmente */
+            padding: 20px; /* Añade un espacio alrededor del formulario */
+            background-color: #f8f9fa; /* Color de fondo */
+            border-radius: 10px; /* Agrega bordes redondeados al formulario */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
+        }
+
+        h2 {
+            color: #007bff; /* Color del título */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Espaciado entre los campos del formulario */
+        }
+
+        .form-label {
+            font-weight: bold; /* Texto en negrita para las etiquetas */
+        }
+
+        .form-range {
+            width: 100%; /* Establece el ancho completo para los controles de rango */
+            height: 30px; /* Reduce la altura de las barras de rango */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Color de fondo del botón */
+            border-color: #007bff; /* Color del borde del botón */
+            border-radius: 5px; /* Bordes redondeados para el botón */
+            padding: 15px 40px; /* Ajusta el espaciado dentro del botón */
+            font-size: 16px; /* Tamaño de fuente del botón */
+            transition: background-color 0.3s; /* Transición suave al pasar el ratón */
+            display: block; /* Hace que el botón sea un bloque */
+            margin: 0 auto; /* Centra el botón horizontalmente */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cambia el color de fondo del botón al pasar el ratón */
+            border-color: #0056b3; /* Cambia el color del borde del botón al pasar el ratón */
+        }

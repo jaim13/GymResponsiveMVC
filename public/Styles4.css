@@ -1,35 +1,46 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype'); 
+}
 body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: #f8f9fa;
         }
         .card {
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s;
+            transition: all 0.3s ease;
+            height: 100%; /* Establece una altura fija para todas las cards */
         }
+        
         .card:hover {
+            transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
+        
         .card-img-top {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
             object-fit: cover;
-            height: 200px; 
+            height: 250px; 
         }
         
         .card-body {
             padding: 20px;
         }
+        
         .card-title {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
         }
+        
         .card-text {
             font-size: 16px;
             color: #6c757d;
         }
+        
         .btn-primary {
             background-color: #007bff;
             border: none;
@@ -38,6 +49,8 @@ body {
             font-size: 16px;
             transition: background-color 0.3s;
         }
+        
         .btn-primary:hover {
             background-color: #0056b3;
         }
+        

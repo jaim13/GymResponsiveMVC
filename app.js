@@ -29,8 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 const faviconPath = path.join(__dirname, 'public', 'images', 'faviconicono.png');
-
-// Configurar el favicon para que sirva desde la ubicación deseada
 app.use(favicon(faviconPath));
 
 
@@ -268,7 +266,6 @@ app.post('/submit-form', async (req, res) => {
         await mainController.handleFormSubmit(req, res);
     } catch (error) {
         console.error('Error al manejar la solicitud:', error);
-        // Enviar una respuesta de error solo si hay un error real en la solicitud
         if (error.response && error.response.status === 400) {
             return res.status(400).json({ error: error.response.data.error });
         } else {

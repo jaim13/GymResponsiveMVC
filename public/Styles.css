@@ -1,9 +1,12 @@
-/* Reset */
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype'); 
+}
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Header */
@@ -20,9 +23,33 @@ header {
 
 /* Navbar */
 .navbar {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    background-color: #ffffffa3 !important; 
+    padding: 10px 0; 
 }
+
+.navbar-brand {
+    color: #000; 
+    font-weight: bold; 
+    font-size: 20px; 
+}
+
+.navbar-nav {
+    text-align: center; /* Centra los elementos de la lista */
+}
+
+.navbar-nav .nav-item {
+    margin: 0 5px; /* Ajuste del espacio entre elementos de la lista */
+}
+
+.nav-link {
+    color: #000 !important; /* Color del texto del enlace */
+    font-size: 16px; /* Tamaño de la fuente de los enlaces */
+}
+
+.nav-link:hover {
+    color: #888 !important; /* Color del texto del enlace al pasar el ratón por encima */
+}
+
 
 @media (max-width: 991.98px) {
     .navbar-nav {
@@ -56,6 +83,10 @@ header {
     padding: 15px 40px;
     border-radius: 15px;
     transition: all 0.3s;
+    position: absolute; /* Permite posicionar el botón de manera absoluta dentro del banner */
+    top: 50%; /* Coloca el botón en el 50% de la altura del banner */
+    left: 50%; /* Coloca el botón en el 50% del ancho del banner */
+    transform: translate(-50%, -50%); /* Centra el botón con respecto a su propio tamaño */
 }
 
 .boton-empezar:hover {

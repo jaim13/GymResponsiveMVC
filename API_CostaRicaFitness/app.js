@@ -50,7 +50,7 @@ async function obtenerIdUsuarioPorCedula(CedulaObtenerID) {
         const result = await request.execute('BuscarUsuarioPorCedula');
         
         if (result.recordset.length > 0) {
-            const CedulaObtenerID = result.recordset[0].idusuarios;
+            CedulaObtenerID = result.recordset[0].idusuarios;
             console.log('ID de usuario encontrado:', CedulaObtenerID);
             return CedulaObtenerID;
         } else {
