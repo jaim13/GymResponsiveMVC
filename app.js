@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const favicon = require('serve-favicon');
+const cors = require('cors');
 
 const personalController = require('./controllers/personalcontroller'); 
 const mainController = require('./controllers/maincontroller');
@@ -21,7 +22,7 @@ const { handleClases, watchSuscriptions } = require('./controllers/clasescontrol
 const cookieParser = require('cookie-parser');
 const app = express();
 
-
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
