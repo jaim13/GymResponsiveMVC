@@ -82,7 +82,7 @@ app.get('/Personal', (req, res) => {
     res.sendFile(path.join(__dirname, 'Views', 'Personal.html'));
 });
 
-const data = JSON.parse(fs.readFileSync('./provincias_cantones_distritos_costa_rica.json', 'utf8'));
+const data = JSON.parse(fs.readFileSync('provincias_cantones_distritos_costa_rica.json', 'utf8'));
 
 app.get('/provincias', async (req, res) => {
     try {
