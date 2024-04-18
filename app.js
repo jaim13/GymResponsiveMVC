@@ -38,48 +38,48 @@ app.use((err, req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Main.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Main.html'));
 });
 app.get('/Recover', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'RestorePassword.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'RestorePassword.html'));
 });
 app.get('/Verification', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', '2stepverification.html'));
+    res.sendFile(path.join(__dirname, 'Views', '2stepverification.html'));
 });
 app.get('/QA', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Q&A.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Q&A.html'));
 });
 app.get('/Token', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Token.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Token.html'));
 });
 app.get('/User', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'User.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'User.html'));
 });
 app.get('/Company', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Company.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Company.html'));
 });
 app.get('/InBody', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'InBody.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'InBody.html'));
 });
 app.get('/WWU', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'WorkwithUs.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'WorkwithUs.html'));
 });
 app.get('/Clases', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Clases.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Clases.html'));
 });
 
 app.get('/pago', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Pago.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Pago.html'));
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Login.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Login.html'));
 });
 app.get('/Services', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Servicios.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Servicios.html'));
 })
 app.get('/Personal', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'Personal.html'));
+    res.sendFile(path.join(__dirname, 'Views', 'Personal.html'));
 });
 
 const data = JSON.parse(fs.readFileSync('./provincias_cantones_distritos_costa_rica.json', 'utf8'));
