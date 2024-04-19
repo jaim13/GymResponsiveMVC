@@ -48,14 +48,14 @@ async function handleRecover(req, res) {
 
         const result = await recoverModel.buscarPreguntaRespuestaPorCedula(id);
 
-        if (result.length > 0) {
+        if (result && result.length > 0) {
             const pregunta = result[0].Pregunta;
             const respuesta = result[0].Respuesta;
             const Correo = result[0].Correo;
             console.log('Correo: ',Correo);
-            const token = generateShortToken(pregunta,respuesta)
+            const token = generateShortToken(pregunta, respuesta);
             console.log("Token generado", token);
-            sendTokenByEmail(Correo, pregunta, token)
+            await sendTokenByEmail(Correo, pregunta, token); // Agregado await para esperar a que se envíe el correo
             console.log('Pregunta:', pregunta);
             console.log('Respuesta:', respuesta);
             res.cookie('recoveryData', { pregunta, respuesta, token, id }, { httpOnly: true });
@@ -68,6 +68,7 @@ async function handleRecover(req, res) {
         res.status(500).json({ message: 'Ocurrió un error al procesar la solicitud de recuperación de contraseña.' });
     }
 }
+
 
 module.exports = {
     handleRecover
