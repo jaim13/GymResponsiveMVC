@@ -669,6 +669,7 @@ async function UpdatePassword(cedula, newPassword) {
     }
 }
 app.post('/actualizarContrasena', async (req, res) => {
+    console.log('Revision de si se esta ingresando al actualizar contraseña.');
     const { cedula, newPassword } = req.body;
     console.log('Cedula que llega a la API: ', req.body.cedula);
     if (!cedula || !newPassword) {
