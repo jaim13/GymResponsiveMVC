@@ -1,7 +1,7 @@
 
 async function buscarPreguntaRespuestaPorCedula(cedula) {
     try {
-        const response = await fetch('http://tu-servidor.com/buscarPreguntaRespuesta', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/buscarPreguntaRespuesta', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
