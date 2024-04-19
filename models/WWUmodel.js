@@ -1,6 +1,6 @@
 async function insertCV(nombre, cedula, telefono, correo) {
     try {
-        const response = await fetch('http://localhost:3020/insertarCV', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/insertarCV', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,7 +1,7 @@
 
 const contratarEntrenador = async (cedula, idPersonal) => {
     try {
-        const response = await fetch('http://localhost:3020/contratarEntrenador', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/contratarEntrenador', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

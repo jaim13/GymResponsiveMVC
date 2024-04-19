@@ -1,7 +1,7 @@
 
 async function insertclases(userID, idClase) {
     try {
-        const response = await fetch('http://localhost:3020/insertarClase', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/insertarClase', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ async function insertclases(userID, idClase) {
 
 async function WatchClass(cedula) {
     try {
-        const response = await fetch('http://localhost:3020/verClases', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/verClases', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

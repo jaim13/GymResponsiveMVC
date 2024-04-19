@@ -1,6 +1,6 @@
 async function obtenerInformacionUsuario(cedula) {
     try {
-        const response = await fetch('http://localhost:3020/obtenerInformacionUsuario', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/obtenerInformacionUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
