@@ -47,7 +47,7 @@ async function handleRecover(req, res) {
         console.log('Cedula del controller:', id);
 
         const result = await recoverModel.buscarPreguntaRespuestaPorCedula(id);
-
+        console.log("Resultado del metodo de recover: ",result);
         if (result && result.length > 0) {
             const pregunta = result[0].Pregunta;
             const respuesta = result[0].Respuesta;
@@ -55,7 +55,7 @@ async function handleRecover(req, res) {
             console.log('Correo: ',Correo);
             const token = generateShortToken(pregunta, respuesta);
             console.log("Token generado", token);
-            await sendTokenByEmail(Correo, pregunta, token); // Agregado await para esperar a que se envíe el correo
+            await sendTokenByEmail(Correo, pregunta, token);
             console.log('Pregunta:', pregunta);
             console.log('Respuesta:', respuesta);
             res.cookie('recoveryData', { pregunta, respuesta, token, id }, { httpOnly: true });
