@@ -5,7 +5,7 @@ const axios = require('axios');
 
 async function insertarUsuario(nombre, password, correo, telefono, edad, fechaRegistro, idUsuario, idMembresia, idEmpresa, question, answer) {
     try {
-        const response = await fetch('http://localhost:3020/insertarUsuario', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/insertarUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ async function insertarUsuario(nombre, password, correo, telefono, edad, fechaRe
 
 async function buscarRegistroPorCedula(cedula) {
     try {
-        const response = await fetch('http://localhost:3000/api/buscar-cedula', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/api/buscar-cedula', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

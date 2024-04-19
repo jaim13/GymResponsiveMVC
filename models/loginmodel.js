@@ -1,7 +1,7 @@
 
 async function verificarCredenciales(cedula, password) {
     try {
-        const response = await fetch('http://localhost:3020/verificarCredenciales', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/verificarCredenciales', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ async function verificarCredenciales(cedula, password) {
 
 async function actualizarActividadUsuario(cedula, actividad) {
     try {
-        const response = await fetch('http://localhost:3020/actualizarActividadUsuario', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/actualizarActividadUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ async function actualizarActividadUsuario(cedula, actividad) {
 
 async function insertarRegistroLog(cedula, actividad) {
     try {
-        const response = await fetch('http://localhost:3020/insertarRegistroLog', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/insertarRegistroLog', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ async function insertarRegistroLog(cedula, actividad) {
 
 async function buscarActividadPorCedula(cedula) {
     try {
-        const response = await fetch('http://localhost:3020/buscarActividadPorCedula', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/buscarActividadPorCedula', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ async function buscarActividadPorCedula(cedula) {
 
 async function buscarCorreoPorCedula(cedula) {
     try {
-        const response = await fetch('http://localhost:3020/buscarCorreoPorCedula', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/buscarCorreoPorCedula', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
