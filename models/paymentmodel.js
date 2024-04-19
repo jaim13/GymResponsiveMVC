@@ -8,13 +8,14 @@ import('node-fetch').then(fetch => {
 });
 
 const config = {
+    server: 'costa-rica-fitness.database.windows.net',
+    database: 'CostaRicaFitness',
     user: 'JaimDavid',
-    password: '1234',
-    server: 'localhost',
-    database: 'Proyecto1_PrograV',
+    password: 'Jaim1311*',
     options: {
         encrypt: true,
-        trustServerCertificate: true
+        trustServerCertificate: false,
+        enableArithAbort: true
     }
 };
 
@@ -236,7 +237,7 @@ async function PaymentPaypal(Description, Correo, userID) {
             correo_destinatario: Correo
         };
 
-        const response = await fetch('http://localhost:5000/realizar_pago_paypal', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/realizar_pago_paypal', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -288,7 +289,7 @@ async function PagoTransferencia(numero_cuenta,userID) {
             body: JSON.stringify(data)
         };
 
-        const apiUrl = 'http://localhost:5000/restar_monto';
+        const apiUrl = 'https://api-costaricafitness.onrender.com/restar_monto';
 
         const response = await fetch(apiUrl, requestOptions);
         const responseData = await response.json();
@@ -312,7 +313,7 @@ async function PagoTarjeta(numeroTarjeta, cvv, expiracion,userID) {
             montoAPagar = 25000;
         }
 
-        const response = await fetch('http://localhost:5000/validar_tarjeta', {
+        const response = await fetch('https://api-costaricafitness.onrender.com/validar_tarjeta', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
