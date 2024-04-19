@@ -36,7 +36,7 @@ async function UpdatePassword(cedula, newPassword) {
         });
 
         if (!response.ok) {
-            throw new Error('Error al actualizar la contraseña. Código de estado: ' + response.status);
+            throw new Error('Error al actualizar la contraseña. Código de estado: ' + response.status + ' - ' + response.statusText);
         }
 
         const data = await response.json();
