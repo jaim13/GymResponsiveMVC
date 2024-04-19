@@ -16,9 +16,10 @@ async function buscarPreguntaRespuestaPorCedula(cedula) {
         }
 
         const data = await response.json();
-        console.log('Pregunta:', data[0].Pregunta);
-        console.log('Respuesta:', data[0].Respuesta);
-        console.log('Correo:', data[0].Correo);
+        console.log('Pregunta en recover model:', data[0].Pregunta);
+        console.log('Respuesta en recover model:', data[0].Respuesta);
+        console.log('Correo en recover model:', data[0].Correo);
+        return data;
     } catch (error) {
         console.error('Error al buscar pregunta y respuesta:', error.message);
     }
