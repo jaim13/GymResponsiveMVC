@@ -226,12 +226,11 @@ function actualizarSelectDistrito(distrito) {
 }
 function buscarCedula(cedula) {
     $.ajax({
-        url: 'http://localhost:3000/api/buscar-cedula',
+        url: 'https://apirest-typescript.onrender.com/api/buscar-cedula',
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ cedula: cedula }),
         success: function(data) {
-            // Llenar los campos del formulario con los datos obtenidos
             console.log('Datos recibidos de la API de registro: ', data);
             console.log('Edad: ', data.edad);
             console.log('Distrito: ', data.distrito);
