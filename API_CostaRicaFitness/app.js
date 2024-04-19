@@ -676,8 +676,10 @@ app.post('/actualizarContrasena', async (req, res) => {
     }
     try {
         await UpdatePassword(cedula, newPassword);
+        console.log('Contraseña actualizada correctamente')
         res.status(200).json({ message: 'Contraseña actualizada correctamente' });
     } catch (error) {
+        console.log('Contraseña no actualizada por error')
         console.error('Error al actualizar la contraseña:', error);
         res.status(500).json({ error: 'Error al actualizar la contraseña' });
     }
