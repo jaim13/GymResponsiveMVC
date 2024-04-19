@@ -682,6 +682,37 @@ app.post('/actualizarContrasena', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la contraseña' });
     }
 });
+//recovermodel
+async function buscarPreguntaRespuestaPorCedula(cedula) {
+    try {
+        await conectarBaseDeDatos();
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('cedula', sql.VarChar(50), cedula)
+            .query('SELECT Pregunta, Respuesta, Correo FROM Usuarios WHERE cedula = @cedula');
+        cerrarConexion();
+        return result.recordset;
+    } catch (error) {
+        console.error('Error al buscar pregunta y respuesta por cédula:', error);
+        throw error;
+    }
+}
+
+app.post('/buscarPreguntaRespuesta', async (req, res) => {
+    const { cedula } = req.body;
+    console.log('Cedula que llega a la API: ', req.body.cedula);
+    if (!cedula) {
+        return res.status(400).json({ error: 'La cédula es obligatoria' });
+    }
+
+    try {
+        const result = await buscarPreguntaRespuestaPorCedula(cedula);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error al buscar pregunta y respuesta por cédula:', error);
+        res.status(500).json({ error: 'Error al buscar pregunta y respuesta por cédula' });
+    }
+});
 
 
 // Iniciar el servidor
