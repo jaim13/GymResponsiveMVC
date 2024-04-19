@@ -643,9 +643,18 @@ app.post('/obtenerInformacionUsuario', async (req, res) => {
 });
 
 /*QA */
+function encryptPassword(password) {
+    const key = crypto.createHash('sha256').update('gm').digest(); 
+    const iv = crypto.randomBytes(16); 
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let encryptedPassword = cipher.update(password, 'utf-8', 'hex');
+    encryptedPassword += cipher.final('hex');
+    const encryptedDataWithIV = iv.toString('hex') + encryptedPassword;
+    return Buffer.from(encryptedDataWithIV, 'hex'); 
+}
 async function UpdatePassword(cedula, newPassword) {
     try {
-        const newEncryptedPassword = encryptPasswordWithIV(newPassword);
+        const newEncryptedPassword = encryptPassword(newPassword);
         
         await conectarBaseDeDatos();
 
