@@ -642,6 +642,48 @@ app.post('/obtenerInformacionUsuario', async (req, res) => {
     }
 });
 
+/*QA */
+async function UpdatePassword(cedula, newPassword) {
+    try {
+        const newEncryptedPassword = encryptPasswordWithIV(newPassword);
+        
+        await conectarBaseDeDatos();
+
+        const request = new sql.Request();
+        const query = `
+            UPDATE Usuarios
+            SET ContraseñaEncriptada = @newEncryptedPassword,
+                Actividad = 'Activo'
+            WHERE cedula = @cedula
+        `;
+        request.input('newEncryptedPassword', sql.VarBinary, newEncryptedPassword);
+        request.input('cedula', sql.NVarChar, cedula);
+
+        const result = await request.query(query);
+        console.log(`Contraseña actualizada correctamente para la cédula ${cedula}.`);
+        
+        await cerrarConexion();
+    } catch (error) {
+        console.error('Error al actualizar la contraseña:', error);
+        throw error;
+    }
+}
+app.post('/actualizarContrasena', async (req, res) => {
+    const { cedula, newPassword } = req.body;
+    console.log('Cedula que llega a la API: ', req.body.cedula);
+    if (!cedula || !newPassword) {
+        return res.status(400).json({ error: 'La cédula y la nueva contraseña son obligatorias' });
+    }
+    try {
+        await UpdatePassword(cedula, newPassword);
+        res.status(200).json({ message: 'Contraseña actualizada correctamente' });
+    } catch (error) {
+        console.error('Error al actualizar la contraseña:', error);
+        res.status(500).json({ error: 'Error al actualizar la contraseña' });
+    }
+});
+
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
