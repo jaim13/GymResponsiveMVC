@@ -11,13 +11,14 @@ app.use(bodyParser.json());
 //Global USE
 
 const config = {
+    server: 'costa-rica-fitness.database.windows.net',
+    database: 'CostaRicaFitness',
     user: 'JaimDavid',
-    password: '1234',
-    server: 'localhost',
-    database: 'Proyecto1_PrograV',
+    password: 'Jaim1311*',
     options: {
-        encrypt: true, 
-        trustServerCertificate: true 
+        encrypt: true,
+        trustServerCertificate: false, 
+        enableArithAbort: true
     }
 };
 
