@@ -78,10 +78,16 @@
                     },
                     {
                         element: document.querySelector('.navbar-brand'),
-                        intro: "This is our brand. You can check on this to see all of services."
+                        intro: "This is your gym."
                     },
-                    // Add more steps for each element you want to highlight
-                    // You can use CSS selectors to target specific elements
+                    {
+                        element: document.querySelector('.navbar-toggler'),
+                        intro: "Click here to open the navigation menu."
+                    },
+                    {
+                        element: document.querySelector('.navbar-nav'),
+                        intro: "This is the navigation menu, you can see all our services."
+                    }
                 ]
             });
             intro.start();
