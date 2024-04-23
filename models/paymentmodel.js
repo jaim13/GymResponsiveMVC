@@ -237,7 +237,7 @@ async function PaymentPaypal(Description, Correo, userID) {
             correo_destinatario: Correo
         };
 
-        const response = await fetch('https://api-costaricafitness.onrender.com/realizar_pago_paypal', {
+        const response = await fetch('https://api-bancariajs.onrender.com/realizar_pago_paypal', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -289,7 +289,7 @@ async function PagoTransferencia(numero_cuenta,userID) {
             body: JSON.stringify(data)
         };
 
-        const apiUrl = 'https://api-costaricafitness.onrender.com/restar_monto';
+        const apiUrl = 'https://api-bancariajs.onrender.com/restar_monto';
 
         const response = await fetch(apiUrl, requestOptions);
         const responseData = await response.json();
@@ -313,7 +313,7 @@ async function PagoTarjeta(numeroTarjeta, cvv, expiracion,userID) {
             montoAPagar = 25000;
         }
 
-        const response = await fetch('https://api-costaricafitness.onrender.com/validar_tarjeta', {
+        const response = await fetch('https://api-bancariajs.onrender.com/validar_tarjeta', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
