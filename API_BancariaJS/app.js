@@ -67,8 +67,8 @@ app.post('/realizar_pago_paypal', (req, res) => {
             'description': descripcion
         }],
         'redirect_urls': {
-            'return_url': 'http://localhost:5000/pago_exitoso',
-            'cancel_url': 'http://localhost:5000/pago_cancelado'
+            'return_url': 'https://api-bancariajs.onrender.com/pago_exitoso',
+            'cancel_url': 'https://api-bancariajs.onrender.com/pago_cancelado'
         }
     };
 
@@ -89,11 +89,11 @@ app.post('/realizar_pago_paypal', (req, res) => {
 
 // Rutas para el manejo de pagos exitosos y cancelados
 app.get('/pago_exitoso', (req, res) => {
-    res.redirect('http://localhost:3001/login');
+    res.redirect('https://costaricafitness.onrender.com/login');
 });
 
 app.get('/pago_cancelado', (req, res) => {
-    res.redirect('http://localhost:3001/pago');
+    res.redirect('https://costaricafitness.onrender.com/pago');
 });
 // Ruta para restar monto de una cuenta
 app.post('/restar_monto', async (req, res) => {
