@@ -14,7 +14,7 @@ const config = {
     password: 'Jaim1311*',
     options: {
         encrypt: true,
-        trustServerCertificate: false,
+        trustServerCertificate: false, 
         enableArithAbort: true
     }
 };
@@ -32,7 +32,7 @@ async function conectarBaseDeDatos() {
 async function cerrarConexion() {
     try {
         await sql.close();
-        console.log('Conexión cerrada correctamente.');
+        console.log('Conexión cerrada.');
     } catch (error) {
         console.log('Error al cerrar la conexión a la base de datos:', error);
         throw error;
