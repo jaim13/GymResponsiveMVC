@@ -262,7 +262,7 @@ function buscarCedula(cedula) {
 
 function obtenerCantones(provincia) {
     $.ajax({
-        url: 'http://localhost:3001/cantones/' + encodeURIComponent(provincia),
+        url: 'https://costaricafitness.onrender.com/cantones/' + encodeURIComponent(provincia),
         method: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -288,7 +288,7 @@ function obtenerCantones(provincia) {
 
 function obtenerDistritos(provincia, canton) {
     $.ajax({
-        url: 'http://localhost:3001/distritos/' + encodeURIComponent(provincia) + '/' + encodeURIComponent(canton),
+        url: 'https://costaricafitness.onrender.com/distritos/' + encodeURIComponent(provincia) + '/' + encodeURIComponent(canton),
         method: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -320,7 +320,7 @@ function obtenerDistritos(provincia, canton) {
 
 function obtenerProvincias() {
     $.ajax({
-        url: 'http://localhost:3001/provincias',
+        url: 'https://costaricafitness.onrender.com/provincias',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
