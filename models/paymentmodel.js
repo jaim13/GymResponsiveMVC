@@ -38,19 +38,43 @@ async function cerrarConexion() {
         throw error;
     }
 }
-async function obtenerIdUsuarioPorCedula(userID) {
+async function obteneridmembresia(idUsuario) {
     try {
         await conectarBaseDeDatos();
         const request = new sql.Request();
-        request.input('Cedula', sql.VarChar, userID);
+        request.input('idUsuario', sql.Int, idUsuario);
+        const result = await request.query(`SELECT [idMembresia] FROM [dbo].[Usuarios] WHERE [idusuarios] = @idUsuario`);
+        
+        if (result.recordset.length > 0) {
+            const idMembresia = result.recordset[0].idMembresia;
+            console.log('ID de membresía encontrado:', idMembresia);
+            return idMembresia;
+        } else {
+            console.log('No se encontró ninguna membresía para el usuario con ID:', idUsuario);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la membresía del usuario:', error);
+        throw error;
+    } finally {
+        await cerrarConexion();
+    }
+}
+
+async function obtenerIdUsuarioPorCedula(CedulaObtenerID) {
+    try {
+        await conectarBaseDeDatos();
+        const request = new sql.Request();
+        console.log('Cedula de obtener idusuario por cedula: ',CedulaObtenerID)
+        request.input('Cedula', sql.VarChar(50), CedulaObtenerID);
         const result = await request.execute('BuscarUsuarioPorCedula');
         
         if (result.recordset.length > 0) {
-            const idUsuario = result.recordset[0].idusuarios;
-            console.log('ID de usuario encontrado:', idUsuario);
-            return idUsuario;
+            CedulaObtenerID = result.recordset[0].idusuarios;
+            console.log('ID de usuario encontrado:', CedulaObtenerID);
+            return CedulaObtenerID;
         } else {
-            console.log('No se encontró ningún usuario con la cédula proporcionada:', userID);
+            console.log('No se encontró ningún usuario con la cédula proporcionada:', CedulaObtenerID);
             return null;
         }
     } catch (error) {
@@ -60,6 +84,7 @@ async function obtenerIdUsuarioPorCedula(userID) {
         await cerrarConexion();
     }
 }
+
 
 async function insertarPagoEnBaseDeDatos(FechaPago, Monto, MetodoPago, idUsuario) {
     try {
@@ -139,28 +164,6 @@ async function obtenerTipoDeCambio() {
     }
 }
 
-async function obteneridmembresia(idUsuario) {
-    try {
-        await conectarBaseDeDatos();
-        const request = new sql.Request();
-        request.input('idUsuario', sql.Int, idUsuario);
-        const result = await request.query(`SELECT [idMembresia] FROM [Proyecto1_PrograV].[dbo].[Usuarios] WHERE [idusuarios] = @idUsuario`);
-        
-        if (result.recordset.length > 0) {
-            const idMembresia = result.recordset[0].idMembresia;
-            console.log('ID de membresía encontrado:', idMembresia);
-            return idMembresia;
-        } else {
-            console.log('No se encontró ninguna membresía para el usuario con ID:', idUsuario);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error al obtener la membresía del usuario:', error);
-        throw error;
-    } finally {
-        await cerrarConexion();
-    }
-}
 
 
 async function obtenerTipoDeCambioVenta() {
@@ -288,7 +291,6 @@ async function PagoTransferencia(numero_cuenta,userID) {
             },
             body: JSON.stringify(data)
         };
-
         const apiUrl = 'https://api-bancariajs.onrender.com/restar_monto';
 
         const response = await fetch(apiUrl, requestOptions);
@@ -325,8 +327,6 @@ async function PagoTarjeta(numeroTarjeta, cvv, expiracion,userID) {
         monto: montoAPagar
     })
 });
-
-        
 
         const responseData = await response.json();
 
